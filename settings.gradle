@@ -1,1 +1,1 @@
-include ':app', ':ringlib'
+include ':app'

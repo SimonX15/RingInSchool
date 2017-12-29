@@ -17,8 +17,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.app.simon.ringlib.AlarmBroadcastReceiver"/>
-        <service android:name="com.app.simon.ringlib.AlarmService"/>
+        <receiver android:name=".ring.AlarmBroadcastReceiver"/>
+        <service android:name=".ring.AlarmService"/>
 
         <activity android:name=".SecondActivity"/>
     </application>

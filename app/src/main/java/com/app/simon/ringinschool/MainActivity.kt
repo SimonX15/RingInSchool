@@ -4,7 +4,7 @@ import android.app.TimePickerDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.app.simon.ringlib.AlarmHelper
+import com.app.simon.ringinschool.ring.AlarmHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.util.*
@@ -25,7 +25,8 @@ class MainActivity : AppCompatActivity() {
                 //                toast("$hourOfDay+$minute")
                 val calculateMills = calculateMills(hourOfDay, minute)
                 Log.i(TAG, calculateMills.toString())
-                AlarmHelper.setAlarmTime(this@MainActivity, calculateMills)
+                AlarmHelper.setAlarmTime(this@MainActivity, 7)
+                AlarmHelper.setAlarmTime(this@MainActivity, 5)
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
                     .show()
         }

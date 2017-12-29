@@ -1,4 +1,4 @@
-package com.app.simon.ringlib
+package com.app.simon.ringinschool.ring
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -20,7 +20,7 @@ object AlarmHelper {
 
 
     /** 设置闹钟 */
-    fun setAlarmTime(context: Context, timeInMillis: Long) {
+    fun setAlarmTime(context: Context, seconds: Long, timeInMills: Long = 0) {
         if (alarmManager == null) {
             alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         }
@@ -31,10 +31,17 @@ object AlarmHelper {
 
         //19以上，不可以重复
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //            alarmManager.setWindow(AlarmManager.RTC_WAKEUP, triggerAtTime, interval, pendingIntent)
-            alarmManager?.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5 * 1000, pendingIntent)
+            //固定时间通知
+            //                        alarmManager?.setWindow(AlarmManager.RTC_WAKEUP, timeInMills, 1000, pendingIntent)
+
+            //            val calendar = Calendar.getInstance()
+            //            //当前时间上加一分钟
+            //            calendar.add(Calendar.MINUTE, 1)
+            //            calendar.set(Calendar.SECOND, 0)
+            //相对时间通知
+            alarmManager?.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + seconds * 1000, pendingIntent)
         } else {
-            alarmManager?.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 5 * 1000, pendingIntent)
+            alarmManager?.setRepeating(AlarmManager.RTC_WAKEUP, timeInMills, 1000 * 60, pendingIntent)
         }
     }
 

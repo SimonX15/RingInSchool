@@ -1,4 +1,4 @@
-package com.app.simon.ringlib
+package com.app.simon.ringinschool.ring
 
 import android.app.Service
 import android.content.Intent
@@ -11,7 +11,7 @@ import android.util.Log
  *
  * @author xw
  */
-class AlarmService() : Service() {
+class AlarmService : Service() {
     private val TAG = AlarmService::class.java.simpleName
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -20,7 +20,7 @@ class AlarmService() : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.i(TAG, "onStartCommand")
-        AlarmHelper.setAlarmTime(this, 1000)
+        AlarmHelper.setAlarmTime(this, 5)
         return super.onStartCommand(intent, flags, startId)
     }
 

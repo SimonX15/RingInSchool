@@ -1,4 +1,4 @@
-package com.app.simon.ringlib
+package com.app.simon.ringinschool.ring
 
 import android.content.BroadcastReceiver
 import android.content.Context
