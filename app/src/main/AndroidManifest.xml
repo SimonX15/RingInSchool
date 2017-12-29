@@ -18,6 +18,9 @@
         </activity>
 
         <receiver android:name="com.app.simon.ringlib.AlarmBroadcastReceiver"/>
+        <service android:name="com.app.simon.ringlib.AlarmService"/>
+
+        <activity android:name=".SecondActivity"/>
     </application>
 
 </manifest>

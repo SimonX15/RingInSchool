@@ -33,3 +33,5 @@ dependencies {
 
     implementation project(':ringlib')
 }
+
+kotlin { experimental { coroutines 'enable' } }

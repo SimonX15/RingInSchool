@@ -3,6 +3,8 @@ package com.app.simon.ringlib
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
 
 /**
@@ -11,8 +13,13 @@ import org.jetbrains.anko.toast
  *
  * @author xw
  */
-class AlarmBroadcastReceiver : BroadcastReceiver() {
+class AlarmBroadcastReceiver : BroadcastReceiver(), AnkoLogger {
     override fun onReceive(context: Context?, intent: Intent?) {
-        context?.toast("你设置的闹铃时间到了")
+        info("AlarmBroadcastReceiver onReceive")
+
+        context?.run {
+            toast("你设置的闹铃时间到了")
+            startService(Intent(context, AlarmService::class.java))
+        }
     }
 }
