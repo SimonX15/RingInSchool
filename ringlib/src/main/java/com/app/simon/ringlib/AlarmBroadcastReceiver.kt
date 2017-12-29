@@ -3,6 +3,7 @@ package com.app.simon.ringlib
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import org.jetbrains.anko.toast
 
 /**
  * desc: 广播接收系统通知
@@ -10,8 +11,8 @@ import android.content.Intent
  *
  * @author xw
  */
-class RingBroadcastReceiver : BroadcastReceiver() {
+class AlarmBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        intent?.getStringExtra()
+        context?.toast("你设置的闹铃时间到了")
     }
 }
