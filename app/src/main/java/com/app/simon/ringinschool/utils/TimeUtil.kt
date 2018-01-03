@@ -1,9 +1,7 @@
 package com.app.simon.ringinschool.utils
 
-import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.alarm.models.Alarm
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -34,13 +32,14 @@ object TimeUtil {
     /**
      * 重置当前闹钟，重置时间
      */
-    fun resetAlarm(alarm: Alarm, isOpening: Boolean? = null) {
+    fun resetAlarm(alarm: Alarm, isOpening: Boolean? = null): Alarm {
         val mills = trans2Mills(alarm.hourOfDay, alarm.minute)
         //下一次的响铃时间
         alarm.timeInMills = mills
         if (isOpening != null) {
             alarm.isOpening = isOpening
         }
+        return alarm
     }
 
     /**
@@ -71,11 +70,11 @@ object TimeUtil {
             choose.add(Calendar.DAY_OF_YEAR, 1)
         }
 
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        /*val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val chooseDate = choose.time
         val chooseFormat = sdf.format(chooseDate)
 
-        Log.i(TAG, chooseFormat)
+        Log.i(TAG, chooseFormat)*/
 
         /*val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
         val currentData = current.time

@@ -20,6 +20,8 @@ object AlarmHelper {
 
     private var alarmManager: AlarmManager? = null
 
+    val EXTRA_ALARM_INDEX = "EXTRA_ALARM_INDEX"
+
     /**
      * 添加闹钟
      */
@@ -31,7 +33,8 @@ object AlarmHelper {
     }
 
     /** 添加闹钟 */
-    private fun addAlarm(context: Context, alarm: Alarm) {
+    fun addAlarm(context: Context, alarm: Alarm) {
+        Log.i(TAG, App.alarmList.toString())
         //如果不是开启的，则不需设置
         if (!alarm.isOpening) {
             return
@@ -40,6 +43,7 @@ object AlarmHelper {
             alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         }
         val intent = Intent(context, AlarmBroadcastReceiver::class.java)
+        intent.putExtra(EXTRA_ALARM_INDEX, App.alarmList.indexOf(alarm))
         val pendingIntent = PendingIntent.getBroadcast(context, alarm.requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
 
         Log.i(TAG, ": ")

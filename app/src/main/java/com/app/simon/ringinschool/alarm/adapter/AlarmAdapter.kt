@@ -30,8 +30,17 @@ class AlarmAdapter(val context: Context, data: MutableList<Alarm>) : BaseQuickAd
         //        helper?.addOnClickListener(R.id.fl_alarm_operation)
 
         item.run {
-            tvHour!!.text = hourOfDay.toString()
-            tvMinute!!.text = minute.toString()
+            var hourString = hourOfDay.toString()
+            if (hourOfDay < 10) {
+                hourString = "0$hourString"
+            }
+            tvHour!!.text = hourString
+
+            var minuteString = minute.toString()
+            if (minute < 10) {
+                minuteString = "0$minuteString"
+            }
+            tvMinute!!.text = minuteString
         }
     }
 }
