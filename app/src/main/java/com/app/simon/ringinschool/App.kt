@@ -1,7 +1,7 @@
 package com.app.simon.ringinschool
 
 import android.app.Application
-import com.app.simon.ringinschool.ui.models.Alarm
+import com.app.simon.ringinschool.alarm.models.Alarm
 
 /**
  * desc: App
@@ -9,9 +9,10 @@ import com.app.simon.ringinschool.ui.models.Alarm
  *
  * @author xw
  */
-object App : Application() {
+class App : Application() {
 
-    /** 闹钟列表 */
-    val alarmList: ArrayList<Alarm> = ArrayList()
-
+    companion object {
+        /** 闹钟列表 */
+        val alarmList: ArrayList<Alarm> = ArrayList()
+    }
 }

@@ -1,4 +1,4 @@
-package com.app.simon.ringinschool.ring
+package com.app.simon.ringinschool.alarm
 
 import android.app.Service
 import android.content.Intent

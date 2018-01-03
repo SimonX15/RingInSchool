@@ -1,4 +1,4 @@
-package com.app.simon.ringinschool.ui.models
+package com.app.simon.ringinschool.alarm.models
 
 /**
  * desc: 闹钟时间

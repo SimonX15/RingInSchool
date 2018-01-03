@@ -8,16 +8,20 @@
     android:orientation="vertical"
     tools:context="com.app.simon.ringinschool.ui.MainActivity">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="10dp"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_alarm"/>
+
     <Button
         android:id="@+id/btn_start_alarm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="开始闹钟"/>
+        android:text="添加闹钟"/>
 
-    <Button
-        android:id="@+id/btn_call"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="打电话"/>
 
 </LinearLayout>
