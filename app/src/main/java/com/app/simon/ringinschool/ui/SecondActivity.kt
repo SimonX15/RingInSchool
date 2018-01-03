@@ -1,7 +1,8 @@
-package com.app.simon.ringinschool
+package com.app.simon.ringinschool.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.app.simon.ringinschool.R
 
 class SecondActivity : AppCompatActivity() {
 

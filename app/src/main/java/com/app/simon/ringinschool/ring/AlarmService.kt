@@ -20,7 +20,7 @@ class AlarmService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.i(TAG, "onStartCommand")
-        AlarmHelper.setAlarmTime(this, 5)
+        //        AlarmHelper.addAlarm(this, 5)
         return super.onStartCommand(intent, flags, startId)
     }
 

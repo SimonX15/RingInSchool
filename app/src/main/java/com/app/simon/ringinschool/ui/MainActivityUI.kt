@@ -1,4 +1,4 @@
-package com.app.simon.ringinschool
+package com.app.simon.ringinschool.ui
 
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext
