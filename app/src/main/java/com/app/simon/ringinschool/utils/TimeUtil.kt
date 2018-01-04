@@ -18,7 +18,7 @@ object TimeUtil {
      */
     fun resetAllAlarmWithCode(isOpening: Boolean? = null) {
         App.alarmList.forEach {
-            val mills = trans2Mills(it.hourOfDay, it.minute)
+            val mills = getNextMills(it.hourOfDay, it.minute)
             //下一次的响铃时间
             it.timeInMills = mills
             //重置code
@@ -32,8 +32,8 @@ object TimeUtil {
     /**
      * 重置当前闹钟，重置时间
      */
-    fun setAlarm2NextDay(alarm: Alarm, isOpening: Boolean? = null): Alarm {
-        val mills = trans2NextDayMills(alarm.hourOfDay, alarm.minute)
+    fun refreshAlarmTime(alarm: Alarm, isOpening: Boolean? = null): Alarm {
+        val mills = getNextMills(alarm.hourOfDay, alarm.minute)
         //下一次的响铃时间
         alarm.timeInMills = mills
         if (isOpening != null) {
@@ -55,9 +55,9 @@ object TimeUtil {
     }
 
     /**
-     * 转换时间为mills
+     * 获取最近的时间
      */
-    fun trans2Mills(hourOfDay: Int, minute: Int): Long {
+    private fun getNextMills(hourOfDay: Int, minute: Int): Long {
         val current = Calendar.getInstance()
         current.set(Calendar.SECOND, 0)
 
@@ -66,36 +66,25 @@ object TimeUtil {
         choose.set(Calendar.MINUTE, minute)
         choose.set(Calendar.SECOND, 0)
 
-        /*val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val chooseDate = choose.time
-        val chooseFormat = sdf.format(chooseDate)
+        //        Log.i(TAG, "current mills：${current.timeInMillis}")
+        //        Log.i(TAG, "current HOUR_OF_DAY：${current.get(Calendar.HOUR_OF_DAY)}")
+        //        Log.i(TAG, "current MINUTE：${current.get(Calendar.MINUTE)}")
+        //        Log.i(TAG, "current SECOND：${current.get(Calendar.SECOND)}")
+        //
+        //        Log.i(TAG, "choose mills：${choose.timeInMillis}")
+        //        Log.i(TAG, "choose HOUR_OF_DAY：${choose.get(Calendar.HOUR_OF_DAY)}")
+        //        Log.i(TAG, "choose MINUTE：${choose.get(Calendar.MINUTE)}")
+        //        Log.i(TAG, "choose SECOND：${choose.get(Calendar.SECOND)}")
 
-        Log.i(TAG, chooseFormat)*/
-
-        /*val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
-        val currentData = current.time
-        val currentFormat = sdf.format(currentData)
-
-        Log.i(TAG, currentFormat)
-
-        val chooseDate = choose.time
-        val chooseFormat = sdf.format(chooseDate)
-
-        Log.i(TAG, chooseFormat)*/
-
-        return choose.timeInMillis
-    }
-
-    /**
-     * 转换为下一天的mills
-     */
-    private fun trans2NextDayMills(hourOfDay: Int, minute: Int): Long {
-        val choose = Calendar.getInstance()
-        choose.set(Calendar.HOUR_OF_DAY, hourOfDay)
-        choose.set(Calendar.MINUTE, minute)
-        choose.set(Calendar.SECOND, 0)
-
-        choose.add(Calendar.DAY_OF_YEAR, 1)
+        //如果选择的时间<=当前的时间，闹钟要设置在一天之后
+        //小于小时
+        if (hourOfDay < current.get(Calendar.HOUR_OF_DAY)) {
+            choose.add(Calendar.DAY_OF_YEAR, 1)
+        }
+        //小时相同，小于或等于分钟
+        if (hourOfDay == current.get(Calendar.HOUR_OF_DAY) && minute <= current.get(Calendar.MINUTE)) {
+            choose.add(Calendar.DAY_OF_YEAR, 1)
+        }
 
         /*val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val chooseDate = choose.time
@@ -116,5 +105,4 @@ object TimeUtil {
 
         return choose.timeInMillis
     }
-
 }

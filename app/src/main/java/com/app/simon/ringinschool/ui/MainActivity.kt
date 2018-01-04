@@ -38,13 +38,18 @@ class MainActivity : AppCompatActivity() {
             when (view.id) {
                 R.id.switch_compat -> {
                     val switchCompat = view as SwitchCompat
+                    val alarm = App.alarmList[position]
+                    //修改是否响铃的状态
+                    alarm.isOpening = switchCompat.isChecked
+                    //添加或取消响铃
                     if (switchCompat.isChecked) {
-                        AlarmHelper.addAlarm(this@MainActivity, App.alarmList[position])
+                        AlarmHelper.addAlarm(this@MainActivity, alarm)
                     } else {
-                        AlarmHelper.cancelAlarm(this@MainActivity, App.alarmList[position])
+                        AlarmHelper.cancelAlarm(this@MainActivity, alarm)
                     }
+                    //notify
                     adapter?.notifyItemChanged(position)
-                    Log.i(TAG, "switch_compat: ${switchCompat.isChecked}")
+                    Log.i(TAG, "alarm: $alarm")
                 }
                 else -> {
                 }
