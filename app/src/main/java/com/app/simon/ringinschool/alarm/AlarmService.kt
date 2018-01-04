@@ -14,22 +14,24 @@ import com.app.simon.ringinschool.utils.TimeUtil
  * @author xw
  */
 class AlarmService : Service() {
-    private val TAG = AlarmService::class.java.simpleName
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.i(TAG, "onStartCommand")
         val alarmIndex = intent?.getIntExtra(AlarmHelper.EXTRA_ALARM_INDEX, -1)
+        Log.i(TAG, "onStartCommand：$alarmIndex")
         if (alarmIndex != -1) {
             val alarm = App.Companion.alarmList[alarmIndex!!]
-            TimeUtil.resetAlarm(alarm)
+            TimeUtil.setAlarm2NextDay(alarm)
             AlarmHelper.addAlarm(this@AlarmService, alarm)
             Log.i(TAG, App.alarmList.toString())
         }
         return super.onStartCommand(intent, flags, startId)
     }
 
+    companion object {
+        private val TAG = AlarmService::class.java.simpleName
+    }
 }

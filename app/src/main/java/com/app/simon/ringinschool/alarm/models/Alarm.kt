@@ -24,7 +24,7 @@ data class Alarm(
         var isOpening: Boolean = false
 ) : Parcelable {
     override fun toString(): String {
-        return "Alarm(timeInMills=$timeInMills, hourOfDay=$hourOfDay, minute=$minute, requestCode=$requestCode, isOpening=$isOpening) " + transDate(timeInMills)
+        return "Alarm(timeInMills=$timeInMills, hourOfDay=$hourOfDay, minute=$minute, requestCode=$requestCode, isOpening=$isOpening) " + transDate(timeInMills) + "\n"
     }
 
     private fun transDate(timeInMills: Long): String {

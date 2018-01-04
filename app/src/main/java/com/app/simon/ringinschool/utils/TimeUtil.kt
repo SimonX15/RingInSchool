@@ -1,7 +1,9 @@
 package com.app.simon.ringinschool.utils
 
+import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.alarm.models.Alarm
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -32,8 +34,8 @@ object TimeUtil {
     /**
      * 重置当前闹钟，重置时间
      */
-    fun resetAlarm(alarm: Alarm, isOpening: Boolean? = null): Alarm {
-        val mills = trans2Mills(alarm.hourOfDay, alarm.minute)
+    fun setAlarm2NextDay(alarm: Alarm, isOpening: Boolean? = null): Alarm {
+        val mills = trans2NextDayMills(alarm.hourOfDay, alarm.minute)
         //下一次的响铃时间
         alarm.timeInMills = mills
         if (isOpening != null) {
@@ -66,15 +68,42 @@ object TimeUtil {
         choose.set(Calendar.MINUTE, minute)
         choose.set(Calendar.SECOND, 0)
 
-        if (choose.timeInMillis < current.timeInMillis) {
-            choose.add(Calendar.DAY_OF_YEAR, 1)
-        }
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val chooseDate = choose.time
+        val chooseFormat = sdf.format(chooseDate)
 
-        /*val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        Log.i(TAG, chooseFormat)
+
+        /*val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+        val currentData = current.time
+        val currentFormat = sdf.format(currentData)
+
+        Log.i(TAG, currentFormat)
+
         val chooseDate = choose.time
         val chooseFormat = sdf.format(chooseDate)
 
         Log.i(TAG, chooseFormat)*/
+
+        return choose.timeInMillis
+    }
+
+    /**
+     * 转换为下一天的mills
+     */
+    private fun trans2NextDayMills(hourOfDay: Int, minute: Int): Long {
+        val choose = Calendar.getInstance()
+        choose.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        choose.set(Calendar.MINUTE, minute)
+        choose.set(Calendar.SECOND, 0)
+
+        choose.add(Calendar.DAY_OF_YEAR, 1)
+
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val chooseDate = choose.time
+        val chooseFormat = sdf.format(chooseDate)
+
+        Log.i(TAG, chooseFormat)
 
         /*val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
         val currentData = current.time
