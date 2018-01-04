@@ -34,19 +34,18 @@ object AlarmHelper {
 
     /** 添加闹钟 */
     fun addAlarm(context: Context, alarm: Alarm) {
-        Log.i(TAG, App.alarmList.toString())
+        Log.i(TAG, "addAlarm：$alarm")
         //如果不是开启的，则不需设置
         if (!alarm.isOpening) {
             return
         }
+        Log.i(TAG, App.alarmList.toString())
         if (alarmManager == null) {
             alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         }
         val intent = Intent(context, AlarmBroadcastReceiver::class.java)
         intent.putExtra(EXTRA_ALARM_INDEX, App.alarmList.indexOf(alarm))
         val pendingIntent = PendingIntent.getBroadcast(context, alarm.requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
-
-        Log.i(TAG, ": ")
 
         //固定时间通知
         alarmManager?.setWindow(AlarmManager.RTC_WAKEUP, alarm.timeInMills, 1000, pendingIntent)
