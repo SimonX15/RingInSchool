@@ -1,6 +1,7 @@
 package com.app.simon.ringinschool.alarm.adapter
 
 import android.content.Context
+import android.support.v7.widget.SwitchCompat
 import android.widget.TextView
 import com.app.simon.ringinschool.R
 import com.app.simon.ringinschool.alarm.models.Alarm
@@ -26,8 +27,10 @@ class AlarmAdapter(val context: Context, data: MutableList<Alarm>) : BaseQuickAd
         }
         val tvHour: TextView? = helper?.getView(R.id.tv_hour)
         val tvMinute: TextView? = helper?.getView(R.id.tv_minute)
+        val tvIsOpening: TextView? = helper?.getView(R.id.tv_is_opening)
+        val switchCompat: SwitchCompat? = helper?.getView(R.id.switch_compat)
 
-        //        helper?.addOnClickListener(R.id.fl_alarm_operation)
+        helper?.addOnClickListener(R.id.switch_compat)
 
         item.run {
             var hourString = hourOfDay.toString()
@@ -41,6 +44,14 @@ class AlarmAdapter(val context: Context, data: MutableList<Alarm>) : BaseQuickAd
                 minuteString = "0$minuteString"
             }
             tvMinute!!.text = minuteString
+
+            switchCompat!!.isChecked = isOpening
+
+            tvIsOpening!!.text = if (isOpening) {
+                "已开启"
+            } else {
+                "已关闭"
+            }
         }
     }
 }

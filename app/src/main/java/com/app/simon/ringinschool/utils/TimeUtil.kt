@@ -1,9 +1,7 @@
 package com.app.simon.ringinschool.utils
 
-import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.alarm.models.Alarm
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -68,11 +66,11 @@ object TimeUtil {
         choose.set(Calendar.MINUTE, minute)
         choose.set(Calendar.SECOND, 0)
 
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        /*val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val chooseDate = choose.time
         val chooseFormat = sdf.format(chooseDate)
 
-        Log.i(TAG, chooseFormat)
+        Log.i(TAG, chooseFormat)*/
 
         /*val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
         val currentData = current.time
@@ -99,11 +97,11 @@ object TimeUtil {
 
         choose.add(Calendar.DAY_OF_YEAR, 1)
 
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        /*val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val chooseDate = choose.time
         val chooseFormat = sdf.format(chooseDate)
 
-        Log.i(TAG, chooseFormat)
+        Log.i(TAG, chooseFormat)*/
 
         /*val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
         val currentData = current.time

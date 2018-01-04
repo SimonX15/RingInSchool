@@ -107,7 +107,7 @@ object AlarmHelper {
     }
 
     /** 取消当前闹钟 */
-    private fun cancelAlarm(context: Context, alarm: Alarm) {
+    fun cancelAlarm(context: Context, alarm: Alarm) {
         cancelAlarm(context, alarm.requestCode)
     }
 

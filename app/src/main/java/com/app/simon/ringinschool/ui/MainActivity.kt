@@ -3,6 +3,8 @@ package com.app.simon.ringinschool.ui
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.SwitchCompat
+import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.R
 import com.app.simon.ringinschool.alarm.AlarmHelper
@@ -30,6 +32,25 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
         adapter = AlarmAdapter(this, App.alarmList)
         recycler_view.adapter = adapter
+
+        adapter?.setOnItemChildClickListener { adapter, view, position ->
+
+            when (view.id) {
+                R.id.switch_compat -> {
+                    val switchCompat = view as SwitchCompat
+                    if (switchCompat.isChecked) {
+                        AlarmHelper.addAlarm(this@MainActivity, App.alarmList[position])
+                    } else {
+                        AlarmHelper.cancelAlarm(this@MainActivity, App.alarmList[position])
+                    }
+                    adapter?.notifyItemChanged(position)
+                    Log.i(TAG, "switch_compat: ${switchCompat.isChecked}")
+                }
+                else -> {
+                }
+            }
+        }
+
 
         btn_start_alarm.onClick {
             val calendar = Calendar.getInstance()
