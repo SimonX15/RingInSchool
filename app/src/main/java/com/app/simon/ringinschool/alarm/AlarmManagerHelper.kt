@@ -15,8 +15,8 @@ import com.app.simon.ringinschool.utils.TimeUtil
  *
  * @author xw
  */
-object AlarmHelper {
-    private val TAG = AlarmHelper::class.java.simpleName
+object AlarmManagerHelper {
+    private val TAG = AlarmManagerHelper::class.java.simpleName
 
     private var alarmManager: AlarmManager? = null
 

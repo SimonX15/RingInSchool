@@ -7,7 +7,7 @@ import android.support.v7.widget.SwitchCompat
 import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.R
-import com.app.simon.ringinschool.alarm.AlarmHelper
+import com.app.simon.ringinschool.alarm.AlarmManagerHelper
 import com.app.simon.ringinschool.alarm.adapter.AlarmAdapter
 import com.app.simon.ringinschool.utils.TimeUtil
 import kotlinx.android.synthetic.main.activity_main.*
@@ -43,9 +43,9 @@ class MainActivity : AppCompatActivity() {
                     alarm.isOpening = switchCompat.isChecked
                     //添加或取消响铃
                     if (switchCompat.isChecked) {
-                        AlarmHelper.addAlarm(this@MainActivity, alarm)
+                        AlarmManagerHelper.addAlarm(this@MainActivity, alarm)
                     } else {
-                        AlarmHelper.cancelAlarm(this@MainActivity, alarm)
+                        AlarmManagerHelper.cancelAlarm(this@MainActivity, alarm)
                     }
                     //notify
                     adapter?.notifyItemChanged(position)
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                     toast("已经设置过该时间的闹钟")
                     return@OnTimeSetListener
                 }
-                AlarmHelper.addAlarm(this@MainActivity, hourOfDay, minute)
+                AlarmManagerHelper.addAlarm(this@MainActivity, hourOfDay, minute)
                 adapter?.notifyItemInserted(App.alarmList.size - 1)
                 //                adapter?.addData(App.alarmList[App.alarmList.size - 1])
                 //                refreshViews()

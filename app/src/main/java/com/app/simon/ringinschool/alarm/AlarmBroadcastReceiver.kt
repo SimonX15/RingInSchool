@@ -20,8 +20,8 @@ class AlarmBroadcastReceiver : BroadcastReceiver(), AnkoLogger {
         context?.run {
             toast("你设置的闹铃时间到了")
             val alarmIntent = Intent(context, AlarmService::class.java)
-            val alarmIndex = intent?.getIntExtra(AlarmHelper.EXTRA_ALARM_INDEX, -1)
-            alarmIntent.putExtra(AlarmHelper.EXTRA_ALARM_INDEX, alarmIndex)
+            val alarmIndex = intent?.getIntExtra(AlarmManagerHelper.EXTRA_ALARM_INDEX, -1)
+            alarmIntent.putExtra(AlarmManagerHelper.EXTRA_ALARM_INDEX, alarmIndex)
             startService(alarmIntent)
         }
     }
