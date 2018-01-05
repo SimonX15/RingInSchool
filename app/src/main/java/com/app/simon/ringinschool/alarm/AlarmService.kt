@@ -21,11 +21,13 @@ class AlarmService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val alarmIndex = intent?.getIntExtra(AlarmManagerHelper.EXTRA_ALARM_INDEX, -1)
         Log.i(TAG, "onStartCommand：$alarmIndex")
-        if (alarmIndex != -1) {
-            Log.i(TAG, App.alarmList.toString())
-            val alarm = App.alarmList[alarmIndex!!]
-            //            TimeUtil.setAlarm2NextDay(alarm)
-            AlarmManagerHelper.addAlarm(this@AlarmService, alarm)
+        Log.i(TAG, App.alarmList.toString())
+        alarmIndex?.run {
+            if (alarmIndex != -1 && alarmIndex < App.alarmList.size) {
+                val alarm = App.alarmList[alarmIndex]
+                //            TimeUtil.setAlarm2NextDay(alarm)
+                AlarmManagerHelper.addAlarm(this@AlarmService, alarm)
+            }
         }
         return super.onStartCommand(intent, flags, startId)
     }

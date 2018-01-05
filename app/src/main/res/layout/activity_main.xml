@@ -23,5 +23,11 @@
         android:layout_height="wrap_content"
         android:text="添加闹钟"/>
 
+    <Button
+        android:id="@+id/btn_search_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="查找音乐"/>
+
 
 </LinearLayout>

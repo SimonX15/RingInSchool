@@ -1,7 +1,9 @@
 package com.app.simon.ringinschool.ui
 
 import android.app.TimePickerDialog
+import android.database.Cursor
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SwitchCompat
 import android.util.Log
@@ -71,6 +73,18 @@ class MainActivity : AppCompatActivity() {
                 //                refreshViews()
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
                     .show()
+        }
+
+        btn_search_music.onClick {
+            var cursor: Cursor? = null
+            try {
+                cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER)
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            } finally {
+                cursor?.close()
+            }
+
         }
     }
 
