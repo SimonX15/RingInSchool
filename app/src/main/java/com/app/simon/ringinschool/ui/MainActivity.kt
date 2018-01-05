@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.TimePickerDialog
 import android.database.Cursor
 import android.media.MediaPlayer
+import android.media.RingtoneManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
@@ -131,6 +132,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshViews() {
 
+    }
+
+    /**
+     * 播放来电铃声的默认音乐
+     */
+    private fun playRingtoneDefault() {
+        val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+        val mRingtone = RingtoneManager.getRingtone(this, uri)
+        mRingtone.play()
+        //        mRingtone.stop()
     }
 
     companion object {

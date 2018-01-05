@@ -46,12 +46,17 @@ class AlarmAdapter(val context: Context, data: MutableList<Alarm>) : BaseQuickAd
             tvMinute!!.text = minuteString
 
             switchCompat!!.isChecked = isOpening
-
-            tvIsOpening!!.text = if (isOpening) {
+            switchCompat.text = if (isOpening) {
                 "已开启"
             } else {
                 "已关闭"
             }
+
+            /*tvIsOpening!!.text = if (isOpening) {
+                "已开启"
+            } else {
+                "已关闭"
+            }*/
         }
     }
 }
