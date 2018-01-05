@@ -24,6 +24,11 @@
         android:text="添加闹钟"/>
 
     <Button
+        android:id="@+id/btn_permission"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="添加权限"/>
+    <Button
         android:id="@+id/btn_search_music"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
