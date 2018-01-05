@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!--<item name="actionMenuTextColor">@color/main_text_color</item> &lt;!&ndash;颜色&ndash;&gt;-->
+        <!--<item name="android:textSize">18sp</item> &lt;!&ndash;字体大小&ndash;&gt;-->
+    </style>
+
 </resources>
