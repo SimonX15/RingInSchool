@@ -16,7 +16,6 @@ import org.jetbrains.anko.toast
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    private val TAG = MainActivity::class.java.simpleName
 
     var adapter: AlarmAdapter? = null
 
@@ -25,8 +24,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initViews()
-
-
     }
 
     private fun initViews() {
@@ -79,5 +76,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshViews() {
 
+    }
+
+    companion object {
+        private val TAG = MainActivity::class.java.simpleName
     }
 }

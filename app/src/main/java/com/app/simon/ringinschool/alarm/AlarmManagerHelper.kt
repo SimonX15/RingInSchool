@@ -10,7 +10,7 @@ import com.app.simon.ringinschool.alarm.models.Alarm
 import com.app.simon.ringinschool.utils.TimeUtil
 
 /**
- * desc:
+ * desc: 闹钟管理类
  * date: 2017/12/28
  *
  * @author xw
@@ -18,8 +18,10 @@ import com.app.simon.ringinschool.utils.TimeUtil
 object AlarmManagerHelper {
     private val TAG = AlarmManagerHelper::class.java.simpleName
 
+    /** 闹钟管理 */
     private var alarmManager: AlarmManager? = null
 
+    /** index */
     val EXTRA_ALARM_INDEX = "EXTRA_ALARM_INDEX"
 
     /**

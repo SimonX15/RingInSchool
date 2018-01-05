@@ -22,10 +22,10 @@ class AlarmService : Service() {
         val alarmIndex = intent?.getIntExtra(AlarmManagerHelper.EXTRA_ALARM_INDEX, -1)
         Log.i(TAG, "onStartCommand：$alarmIndex")
         if (alarmIndex != -1) {
+            Log.i(TAG, App.alarmList.toString())
             val alarm = App.alarmList[alarmIndex!!]
             //            TimeUtil.setAlarm2NextDay(alarm)
             AlarmManagerHelper.addAlarm(this@AlarmService, alarm)
-            Log.i(TAG, App.alarmList.toString())
         }
         return super.onStartCommand(intent, flags, startId)
     }

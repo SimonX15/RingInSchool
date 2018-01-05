@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity">
+        <activity
+            android:name=".ui.MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -21,7 +23,9 @@
         <receiver android:name=".alarm.AlarmBroadcastReceiver"/>
         <service android:name=".alarm.AlarmService"/>
 
-        <activity android:name=".ui.SecondActivity"/>
+        <activity
+            android:name=".ui.SecondActivity"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>
