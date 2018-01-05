@@ -3,7 +3,7 @@ package com.app.simon.ringinschool.alarm
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.app.simon.ringinschool.ui.SecondActivity
+import com.app.simon.ringinschool.ui.AlarmActivity
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
@@ -25,7 +25,7 @@ class AlarmBroadcastReceiver : BroadcastReceiver(), AnkoLogger {
             alarmIntent.putExtra(AlarmManagerHelper.EXTRA_ALARM_INDEX, alarmIndex)
             startService(alarmIntent)
 
-            SecondActivity.launch(context)
+            AlarmActivity.launch(context)
         }
     }
 }

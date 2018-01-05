@@ -42,7 +42,7 @@
         <service android:name=".alarm.AlarmService"/>
 
         <activity
-            android:name=".ui.SecondActivity"
+            android:name=".ui.AlarmActivity"
             android:launchMode="singleTask"/>
     </application>
 

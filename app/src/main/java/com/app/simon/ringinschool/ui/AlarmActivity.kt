@@ -7,15 +7,14 @@ import android.support.v7.app.AppCompatActivity
 import com.app.simon.ringinschool.R
 import org.jetbrains.anko.*
 
-class SecondActivity : AppCompatActivity() {
+class AlarmActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        alert {
+        val alert = alert {
             title = "你设置的闹钟时间到了"
-
             okButton {
                 title = "知道了"
                 finish()
@@ -24,21 +23,23 @@ class SecondActivity : AppCompatActivity() {
                 title = "取消"
                 finish()
             }
-        }.show()
+        }
+        alert.isCancelable = false
+        alert.show()
     }
 
     companion object {
-        private val TAG = SecondActivity::class.java.simpleName
+        private val TAG = AlarmActivity::class.java.simpleName
 
         fun launch(activity: Activity) {
             activity.run {
-                startActivity(intentFor<SecondActivity>(/*"" to ""*/))
+                startActivity(intentFor<AlarmActivity>(/*"" to ""*/))
             }
         }
 
         fun launch(context: Context) {
             context.run {
-                startActivity(intentFor<SecondActivity>(/*"" to ""*/).newTask())
+                startActivity(intentFor<AlarmActivity>(/*"" to ""*/).newTask())
             }
         }
     }
