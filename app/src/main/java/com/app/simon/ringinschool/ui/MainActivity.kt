@@ -3,6 +3,7 @@ package com.app.simon.ringinschool.ui
 import android.Manifest
 import android.app.TimePickerDialog
 import android.database.Cursor
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
@@ -21,10 +22,13 @@ import org.jetbrains.anko.toast
 import java.util.*
 import kotlin.collections.ArrayList
 
+
 class MainActivity : AppCompatActivity() {
 
     var adapter: AlarmAdapter? = null
     var musicList: ArrayList<Music> = ArrayList()
+
+    val mediaPlayer = MediaPlayer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                     // int albumId = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
 
                     val music = Music(path, name, artist, duration)
-                    Log.i(TAG, "music: $music")
+                    Log.i(TAG, "music: $path")
                     musicList.add(music)
                 }
             } catch (ex: Exception) {
@@ -110,6 +114,18 @@ class MainActivity : AppCompatActivity() {
             } finally {
                 cursor?.close()
             }
+        }
+
+        btn_play.onClick {
+            mediaPlayer.setDataSource(musicList[musicList.size - 2].path)
+            //            mediaPlayer.prepareAsync()
+            mediaPlayer.prepare()
+            mediaPlayer.start()
+        }
+
+        btn_stop.onClick {
+            mediaPlayer.stop()
+            mediaPlayer.release()
         }
     }
 
