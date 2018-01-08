@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SwitchCompat
 import android.util.Log
 import com.app.simon.ringinschool.App
@@ -16,6 +17,7 @@ import com.app.simon.ringinschool.alarm.AlarmManagerHelper
 import com.app.simon.ringinschool.alarm.adapter.AlarmAdapter
 import com.app.simon.ringinschool.music.Music
 import com.app.simon.ringinschool.utils.TimeUtil
+import com.app.simon.ringinschool.widgets.CustomerItemDecoration
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
@@ -52,6 +54,7 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
         adapter = AlarmAdapter(this, App.alarmList)
         recycler_view.adapter = adapter
+        recycler_view.addItemDecoration(CustomerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
         adapter?.setOnItemChildClickListener { adapter, view, position ->
 
@@ -76,7 +79,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         btn_start_alarm.onClick {
             val calendar = Calendar.getInstance()
             //当前时间上加一分钟
@@ -90,6 +92,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 AlarmManagerHelper.addAlarm(this@MainActivity, hourOfDay, minute)
                 adapter?.notifyItemInserted(App.alarmList.size - 1)
+
+
                 //                adapter?.addData(App.alarmList[App.alarmList.size - 1])
                 //                refreshViews()
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
