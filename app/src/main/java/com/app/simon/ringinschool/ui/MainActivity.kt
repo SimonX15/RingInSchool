@@ -19,6 +19,9 @@ import com.app.simon.ringinschool.music.Music
 import com.app.simon.ringinschool.utils.TimeUtil
 import com.app.simon.ringinschool.widgets.CustomerItemDecoration
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.cancelButton
+import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
 import java.util.*
@@ -57,7 +60,6 @@ class MainActivity : AppCompatActivity() {
         recycler_view.addItemDecoration(CustomerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
         adapter?.setOnItemChildClickListener { adapter, view, position ->
-
             when (view.id) {
                 R.id.switch_compat -> {
                     val switchCompat = view as SwitchCompat
@@ -79,13 +81,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        adapter?.setOnItemLongClickListener { adapter, view, position ->
+            alert {
+                title = "是否删除当前闹钟"
+                okButton {
+                    val alarm = App.alarmList[position]
+                    AlarmManagerHelper.deleteAlarm(this@MainActivity, alarm)
+                    adapter.notifyItemRemoved(position)
+                }
+                cancelButton {
+
+                }
+            }.show()
+            true
+        }
+
         btn_start_alarm.onClick {
             val calendar = Calendar.getInstance()
             //当前时间上加一分钟
             calendar.add(Calendar.MINUTE, 1)
 
             TimePickerDialog(this@MainActivity, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-                //                toast("$hourOfDay+$minute")
                 if (TimeUtil.isSet(hourOfDay, minute)) {
                     toast("已经设置过该时间的闹钟")
                     return@OnTimeSetListener
@@ -93,9 +109,6 @@ class MainActivity : AppCompatActivity() {
                 AlarmManagerHelper.addAlarm(this@MainActivity, hourOfDay, minute)
                 adapter?.notifyItemInserted(App.alarmList.size - 1)
 
-
-                //                adapter?.addData(App.alarmList[App.alarmList.size - 1])
-                //                refreshViews()
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
                     .show()
         }
@@ -129,18 +142,6 @@ class MainActivity : AppCompatActivity() {
             } finally {
                 cursor?.close()
             }
-        }
-
-        btn_play.onClick {
-            App.mediaPlayer.setDataSource(musicList[musicList.size - 2].path)
-            //            mediaPlayer.prepareAsync()
-            App.mediaPlayer.prepare()
-            App.mediaPlayer.start()
-        }
-
-        btn_stop.onClick {
-            App.mediaPlayer.stop()
-            App.mediaPlayer.release()
         }
     }
 

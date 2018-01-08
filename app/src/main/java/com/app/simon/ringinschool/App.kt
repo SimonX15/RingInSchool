@@ -26,6 +26,6 @@ class App : Application() {
         /** 闹钟列表 */
         val alarmList: ArrayList<Alarm> = ArrayList()
         /** 全局的播放器 */
-        val mediaPlayer = MediaPlayer()
+        var mediaPlayer: MediaPlayer? = null
     }
 }

@@ -20,9 +20,6 @@ class AlarmService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-        MediaPlayerUtil.play(this, "class_start.mp3")
-
         val alarmIndex = intent?.getIntExtra(AlarmManagerHelper.EXTRA_ALARM_INDEX, -1)
         Log.i(TAG, "onStartCommand：$alarmIndex")
         Log.i(TAG, App.alarmList.toString())
@@ -33,6 +30,7 @@ class AlarmService : Service() {
                 AlarmManagerHelper.addAlarm(this@AlarmService, alarm)
             }
         }
+        MediaPlayerUtil.play(this, "class_start.mp3")
         return super.onStartCommand(intent, flags, startId)
     }
 
