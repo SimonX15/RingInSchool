@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:padding="10dp"
     tools:background="#756723">
 
 
@@ -17,13 +16,25 @@
         android:textSize="30sp"
         tools:text="20:00"/>
 
-    <TextView
-        android:id="@+id/tv_is_opening"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="20sp"
-        tools:text="未开启"/>
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#7e7e7e"/>
+
+        <TextView
+            android:id="@+id/tv_is_opening"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            tools:text="未开启"/>
+    </LinearLayout>
+
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/switch_compat"

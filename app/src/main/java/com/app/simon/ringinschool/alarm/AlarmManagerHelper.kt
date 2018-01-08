@@ -135,7 +135,7 @@ object AlarmManagerHelper {
 
 
     /** 开启闹钟 */
-    private fun startAllAlarm(context: Context) {
+    fun startAllAlarm(context: Context) {
         App.alarmList.forEach {
             startAlarm(context, it)
         }
@@ -152,7 +152,7 @@ object AlarmManagerHelper {
 
 
     /** 取消所有闹钟 */
-    private fun cancelAllAlarm(context: Context) {
+    fun cancelAllAlarm(context: Context) {
         //取消所有闹钟
         App.alarmList.forEach {
             cancelAlarm(context, it)
@@ -170,11 +170,11 @@ object AlarmManagerHelper {
         if (alarmManager == null) {
             alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         }
-        alarmManager?.let {
+        alarmManager?.apply {
             val intent = Intent(context, AlarmBroadcastReceiver::class.java)
             val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
             //取消正在执行的服务
-            alarmManager?.cancel(pendingIntent)
+            cancel(pendingIntent)
         }
     }
 

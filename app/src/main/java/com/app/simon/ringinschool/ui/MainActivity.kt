@@ -57,16 +57,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
         adapter = AlarmAdapter(this, App.alarmList)
-        recycler_view.adapter = adapter
-        recycler_view.addItemDecoration(CustomerItemDecoration(this, LinearLayoutManager.VERTICAL))
-
         adapter?.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
             //更改时间
                 R.id.tv_time -> {
                     val alarm = App.alarmList[position]
                     val calendar = Calendar.getInstance()
-                    //当前时间上加一分钟
                     calendar.set(Calendar.HOUR_OF_DAY, alarm.hourOfDay)
                     calendar.set(Calendar.MINUTE, alarm.minute)
 
@@ -124,6 +120,33 @@ class MainActivity : AppCompatActivity() {
                 }
             }.show()
             true
+        }
+        recycler_view.adapter = adapter
+        recycler_view.addItemDecoration(CustomerItemDecoration(this, LinearLayoutManager.VERTICAL))
+
+        App.alarmList.forEach {
+            if (it.isOpening) {
+                sc_alarm_status.isChecked = true
+                sc_alarm_status.text = "全部开启"
+                return@forEach
+            }
+        }
+
+        sc_alarm_status.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.text = if (isChecked) {
+                App.alarmList.forEach {
+                    it.isOpening = true
+                }
+                AlarmManagerHelper.startAllAlarm(this)
+                "全部开启"
+            } else {
+                App.alarmList.forEach {
+                    it.isOpening = false
+                }
+                AlarmManagerHelper.cancelAllAlarm(this)
+                "全部关闭"
+            }
+            adapter?.notifyDataSetChanged()
         }
 
         btn_start_alarm.onClick {

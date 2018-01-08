@@ -17,11 +17,6 @@ import com.chad.library.adapter.base.BaseViewHolder
 class AlarmAdapter(val context: Context, data: MutableList<Alarm>) : BaseQuickAdapter<Alarm, BaseViewHolder>(R.layout.item_alarm, data) {
 
     override fun convert(helper: BaseViewHolder?, item: Alarm?) {
-        //兼容性问题，在5.0以上，需要设置clipToOutline
-        //        val cardView: CardView? = helper?.getView(R.id.cv_alarm)
-        //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        //            cardView?.clipToOutline = false
-        //        }
         if (item == null) {
             return
         }
@@ -36,11 +31,6 @@ class AlarmAdapter(val context: Context, data: MutableList<Alarm>) : BaseQuickAd
             tvTime!!.text = standardTime()
 
             switchCompat!!.isChecked = isOpening
-            switchCompat.text = if (isOpening) {
-                "已开启"
-            } else {
-                "已关闭"
-            }
 
             /*tvIsOpening!!.text = if (isOpening) {
                 "已开启"
