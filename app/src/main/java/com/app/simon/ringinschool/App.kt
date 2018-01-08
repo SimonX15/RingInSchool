@@ -2,6 +2,7 @@ package com.app.simon.ringinschool
 
 import android.app.Application
 import com.app.simon.ringinschool.alarm.models.Alarm
+import io.realm.Realm
 
 /**
  * desc: App
@@ -10,6 +11,15 @@ import com.app.simon.ringinschool.alarm.models.Alarm
  * @author xw
  */
 class App : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        initRealm()
+    }
+
+    private fun initRealm() {
+        Realm.init(this)
+    }
 
     companion object {
         /** 闹钟列表 */
