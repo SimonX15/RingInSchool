@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         AlarmManagerHelper.updateAlarm(this@MainActivity, position, hourOfDay, minute, object : OnCompletedListener {
                             override fun updateAtPosition(from: Int, to: Int) {
+                                adapter?.notifyItemChanged(from)
                                 adapter?.notifyItemMoved(from, to)
                             }
                         })

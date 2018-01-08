@@ -41,8 +41,8 @@ object AlarmManagerHelper {
         var toPosition = App.alarmList.size
         loop@ for (index in 0 until App.alarmList.size) {
             val alarm = App.alarmList[index]
-            //如果当前的标准时间大于index的标准时间，则加入
-            if (currentAlarm.standardTime() > alarm.standardTime()) {
+            //如果index的标准时间大于当前的标准时间，则加入
+            if (alarm.standardTime() > currentAlarm.standardTime()) {
                 toPosition = index
                 break@loop
             }
@@ -73,8 +73,8 @@ object AlarmManagerHelper {
         var toPosition = App.alarmList.size
         loop@ for (index in 0 until App.alarmList.size) {
             val alarm = App.alarmList[index]
-            //如果当前的标准时间大于index的标准时间，则加入
-            if (currentAlarm.standardTime() > alarm.standardTime()) {
+            //如果index的标准时间大于当前的标准时间，则加入
+            if (alarm.standardTime() > currentAlarm.standardTime()) {
                 toPosition = index
                 break@loop
             }

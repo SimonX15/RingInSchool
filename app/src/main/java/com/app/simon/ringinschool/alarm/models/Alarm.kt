@@ -14,10 +14,10 @@ import java.util.*
  */
 @RealmClass
 open class Alarm(
-        /** 分钟 */
-        var minute: Int = 0,
         /** 小时 */
         var hourOfDay: Int = 0,
+        /** 分钟 */
+        var minute: Int = 0,
         /** mills */
         var timeInMills: Long = 0,
         /** requestCode，用于闹钟设置 */
