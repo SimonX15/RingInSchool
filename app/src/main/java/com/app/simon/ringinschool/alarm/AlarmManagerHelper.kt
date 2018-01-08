@@ -141,7 +141,6 @@ object AlarmManagerHelper {
         }
     }
 
-
     /** 删除所有闹钟 */
     fun deleteAllAlarm(context: Context) {
         //取消所有闹钟
@@ -161,12 +160,12 @@ object AlarmManagerHelper {
 
     /** 取消当前闹钟 */
     fun cancelAlarm(context: Context, alarm: Alarm) {
-        cancelAlarm(context, alarm.requestCode)
+        cancelAlarmWithCode(context, alarm.requestCode)
     }
 
 
     /** 取消闹钟 */
-    private fun cancelAlarm(context: Context, requestCode: Int) {
+    private fun cancelAlarmWithCode(context: Context, requestCode: Int) {
         if (alarmManager == null) {
             alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         }
