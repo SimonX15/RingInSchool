@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         //        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         initViews()
+        //        AssetsUtil.play(this,"class_start.mp3")
     }
 
     private fun initViews() {
