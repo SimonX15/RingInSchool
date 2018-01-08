@@ -21,15 +21,14 @@ class AlarmService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val alarmIndex = intent?.getIntExtra(AlarmManagerHelper.EXTRA_ALARM_INDEX, -1)
-        Log.i(TAG, "onStartCommand：$alarmIndex")
         Log.i(TAG, App.alarmList.toString())
         alarmIndex?.run {
             if (alarmIndex != -1 && alarmIndex < App.alarmList.size) {
                 val alarm = App.alarmList[alarmIndex]
-                //            TimeUtil.setAlarm2NextDay(alarm)
-                AlarmManagerHelper.addAlarm(this@AlarmService, alarm)
+                AlarmManagerHelper.updateAlarm(this@AlarmService, alarmIndex, alarm.hourOfDay, alarm.minute)
             }
         }
+        //闹钟开始
         MediaPlayerUtil.play(this, "class_start.mp3")
         return super.onStartCommand(intent, flags, startId)
     }

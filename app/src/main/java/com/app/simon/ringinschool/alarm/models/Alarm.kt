@@ -1,5 +1,8 @@
 package com.app.simon.ringinschool.alarm.models
 
+import io.realm.RealmModel
+import io.realm.annotations.RealmClass
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -9,21 +12,32 @@ import java.util.*
  *
  * @author xw
  */
-data class Alarm(
-        /** mills */
-        var timeInMills: Long = 0,
-        /** 小时 */
-        var hourOfDay: Int = 0,
+@RealmClass
+open class Alarm(
         /** 分钟 */
         var minute: Int = 0,
+        /** 小时 */
+        var hourOfDay: Int = 0,
+        /** mills */
+        var timeInMills: Long = 0,
         /** requestCode，用于闹钟设置 */
         var requestCode: Int = 0,
         /** 是否打开，打开就要响铃 */
-        var isOpening: Boolean = false
+        var isOpening: Boolean = true
+        /** 是否打开，打开就要响铃 */
+        //        var isInAsset: Boolean = false,
+        /** 是否打开，打开就要响铃 */
+        //        var path: Boolean = false
 
-) {
+) : RealmModel {
     override fun toString(): String {
         return transDate(timeInMills) + "——Alarm(timeInMills=$timeInMills, hourOfDay=$hourOfDay, minute=$minute, requestCode=$requestCode, isOpening=$isOpening)\n"
+    }
+
+    /** 标准时间 */
+    fun standardTime(): String {
+        val df = DecimalFormat("00")  //保留两位数，如果不足两位则自动补零
+        return df.format(hourOfDay) + " : " + df.format(minute)
     }
 
     private fun transDate(timeInMills: Long): String {

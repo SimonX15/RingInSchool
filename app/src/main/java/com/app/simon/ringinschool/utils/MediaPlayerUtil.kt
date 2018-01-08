@@ -12,7 +12,7 @@ import com.app.simon.ringinschool.App
  */
 object MediaPlayerUtil {
 
-    fun play(context: Context, musicPath: String): Unit {
+    fun play(context: Context, musicPath: String) {
         val assetManager = context.assets
         val music = assetManager.openFd(musicPath)
 
@@ -25,6 +25,8 @@ object MediaPlayerUtil {
             prepare()
             start()
         }
+
+
     }
 
     /** 停止 */

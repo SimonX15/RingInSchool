@@ -16,10 +16,15 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         initRealm()
+        initAlarmList()
     }
 
     private fun initRealm() {
         Realm.init(this)
+    }
+
+    private fun initAlarmList() {
+
     }
 
     companion object {

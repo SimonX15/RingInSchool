@@ -16,16 +16,13 @@ object TimeUtil {
     /**
      * 重置全部闹钟，重置时间
      */
-    fun resetAllAlarmWithCode(isOpening: Boolean? = null) {
+    fun resetAllAlarmWithCode() {
         App.alarmList.forEach {
             val mills = getNextMills(it.hourOfDay, it.minute)
             //下一次的响铃时间
             it.timeInMills = mills
             //重置code
             it.requestCode = App.alarmList.indexOf(it)
-            if (isOpening != null) {
-                it.isOpening = isOpening
-            }
         }
     }
 

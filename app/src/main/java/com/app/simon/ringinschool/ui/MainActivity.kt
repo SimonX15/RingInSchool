@@ -14,6 +14,7 @@ import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.R
 import com.app.simon.ringinschool.alarm.AlarmManagerHelper
+import com.app.simon.ringinschool.alarm.OnCompletedListener
 import com.app.simon.ringinschool.alarm.adapter.AlarmAdapter
 import com.app.simon.ringinschool.music.Music
 import com.app.simon.ringinschool.utils.TimeUtil
@@ -61,6 +62,32 @@ class MainActivity : AppCompatActivity() {
 
         adapter?.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
+            //更改时间
+                R.id.tv_time -> {
+                    val alarm = App.alarmList[position]
+                    val calendar = Calendar.getInstance()
+                    //当前时间上加一分钟
+                    calendar.set(Calendar.HOUR_OF_DAY, alarm.hourOfDay)
+                    calendar.set(Calendar.MINUTE, alarm.minute)
+
+                    TimePickerDialog(this@MainActivity, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                        if (hourOfDay == alarm.hourOfDay && minute == alarm.minute) {
+                            return@OnTimeSetListener
+                        }
+                        if (TimeUtil.isSet(hourOfDay, minute)) {
+                            toast("已经设置过该时间的闹钟")
+                            return@OnTimeSetListener
+                        }
+                        AlarmManagerHelper.updateAlarm(this@MainActivity, position, hourOfDay, minute, object : OnCompletedListener {
+                            override fun updateAtPosition(from: Int, to: Int) {
+                                adapter?.notifyItemMoved(from, to)
+                            }
+                        })
+
+                    }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
+                            .show()
+                }
+            //开关
                 R.id.switch_compat -> {
                     val switchCompat = view as SwitchCompat
                     val alarm = App.alarmList[position]
@@ -68,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                     alarm.isOpening = switchCompat.isChecked
                     //添加或取消响铃
                     if (switchCompat.isChecked) {
-                        AlarmManagerHelper.addAlarm(this@MainActivity, alarm)
+                        AlarmManagerHelper.startAlarm(this@MainActivity, alarm)
                     } else {
                         AlarmManagerHelper.cancelAlarm(this@MainActivity, alarm)
                     }
@@ -85,9 +112,11 @@ class MainActivity : AppCompatActivity() {
             alert {
                 title = "是否删除当前闹钟"
                 okButton {
-                    val alarm = App.alarmList[position]
-                    AlarmManagerHelper.deleteAlarm(this@MainActivity, alarm)
-                    adapter.notifyItemRemoved(position)
+                    AlarmManagerHelper.deleteAlarm(this@MainActivity, position, object : OnCompletedListener {
+                        override fun deleteAtPosition(position: Int) {
+                            adapter.notifyItemRemoved(position)
+                        }
+                    })
                 }
                 cancelButton {
 
@@ -106,9 +135,11 @@ class MainActivity : AppCompatActivity() {
                     toast("已经设置过该时间的闹钟")
                     return@OnTimeSetListener
                 }
-                AlarmManagerHelper.addAlarm(this@MainActivity, hourOfDay, minute)
-                adapter?.notifyItemInserted(App.alarmList.size - 1)
-
+                AlarmManagerHelper.addAlarm(this@MainActivity, hourOfDay, minute, object : OnCompletedListener {
+                    override fun addAtPosition(position: Int) {
+                        adapter?.notifyItemInserted(position)
+                    }
+                })
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
                     .show()
         }

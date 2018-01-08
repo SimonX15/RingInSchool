@@ -24,22 +24,92 @@ object AlarmManagerHelper {
     /** index */
     val EXTRA_ALARM_INDEX = "EXTRA_ALARM_INDEX"
 
+
     /**
      * 添加闹钟
+     *
+     * 添加/更新/删除操作——>取消全部闹钟——>更新list——>添加全部闹钟
+     *
      */
-    fun addAlarm(context: Context, hourOfDay: Int, minute: Int) {
-        //        val mills = TimeUtil.getNextMills(hourOfDay, minute)
-        val alarm = Alarm(0, hourOfDay, minute, App.alarmList.size, true)
-        App.alarmList.add(alarm)
-        addAlarm(context, alarm)
+    fun addAlarm(context: Context, hourOfDay: Int, minute: Int, onCompletedListener: OnCompletedListener? = null) {
+        Log.i(TAG, "addAlarm start: ${App.alarmList}")
+        //先取消闹钟
+        cancelAllAlarm(context)
+        //new
+        val currentAlarm = Alarm(hourOfDay, minute)
+        //插入的位置
+        var toPosition = App.alarmList.size
+        loop@ for (index in 0 until App.alarmList.size) {
+            val alarm = App.alarmList[index]
+            //如果当前的标准时间大于index的标准时间，则加入
+            if (currentAlarm.standardTime() > alarm.standardTime()) {
+                toPosition = index
+                break@loop
+            }
+        }
+        //插入数据
+        App.alarmList.add(toPosition, currentAlarm)
+        //返回index，作为更新使用
+        onCompletedListener?.addAtPosition(toPosition)
+        //重置，主要是更新时间和闹钟的code
+        TimeUtil.resetAllAlarmWithCode()
+        //开启所有闹钟
+        startAllAlarm(context)
+        Log.i(TAG, "addAlarm end: ${App.alarmList}")
     }
 
-    /** 添加闹钟 */
-    fun addAlarm(context: Context, alarm: Alarm) {
+    /**
+     * 更新闹钟
+     */
+    fun updateAlarm(context: Context, fromPosition: Int, hourOfDay: Int, minute: Int, onCompletedListener: OnCompletedListener? = null) {
+        Log.i(TAG, "updateAlarm start: ${App.alarmList}")
+        //先取消闹钟
+        cancelAllAlarm(context)
+        //删除
+        App.alarmList.removeAt(fromPosition)
+        //new
+        val currentAlarm = Alarm(hourOfDay, minute)
+        //插入的位置
+        var toPosition = App.alarmList.size
+        loop@ for (index in 0 until App.alarmList.size) {
+            val alarm = App.alarmList[index]
+            //如果当前的标准时间大于index的标准时间，则加入
+            if (currentAlarm.standardTime() > alarm.standardTime()) {
+                toPosition = index
+                break@loop
+            }
+        }
+        //插入数据
+        App.alarmList.add(toPosition, currentAlarm)
+        //返回index，作为更新使用
+        onCompletedListener?.updateAtPosition(fromPosition, toPosition)
+        //重置，主要是更新时间和闹钟的code
+        TimeUtil.resetAllAlarmWithCode()
+        //开启所有闹钟
+        startAllAlarm(context)
+        Log.i(TAG, "updateAlarm end: ${App.alarmList}")
+    }
+
+    /**
+     * 删除闹钟
+     */
+    fun deleteAlarm(context: Context, fromPosition: Int, onCompletedListener: OnCompletedListener? = null) {
+        Log.i(TAG, "deleteAlarm start: ${App.alarmList}")
+        //先取消闹钟
+        cancelAlarm(context, App.alarmList[fromPosition])
+        //删除
+        App.alarmList.removeAt(fromPosition)
+        //返回index，作为更新使用
+        onCompletedListener?.deleteAtPosition(fromPosition)
+        Log.i(TAG, "deleteAlarm end: ${App.alarmList}")
+    }
+
+    /** 开启闹钟 */
+    fun startAlarm(context: Context, alarm: Alarm) {
         //添加闹钟的时候重新设置mills
         TimeUtil.refreshAlarmTime(alarm)
 
-        Log.i(TAG, "addAlarm：$alarm")
+        Log.i(TAG, "startAlarm：$alarm")
         //如果不是开启的，则不需设置
         if (!alarm.isOpening) {
             return
@@ -64,35 +134,13 @@ object AlarmManagerHelper {
     }
 
 
-    /** 重新开启闹钟 */
-    fun addAllAlarm(context: Context) {
-        //取消所有闹钟
-        cancelAllAlarm(context)
-        //重置
-        TimeUtil.resetAllAlarmWithCode()
-        //开启
+    /** 开启闹钟 */
+    private fun startAllAlarm(context: Context) {
         App.alarmList.forEach {
-            addAlarm(context, it)
+            startAlarm(context, it)
         }
     }
 
-    /** 删除闹钟 */
-    fun deleteAlarm(context: Context, alarm: Alarm) {
-        //取消当前闹钟
-        cancelAlarm(context, alarm.requestCode)
-        //删除当前闹钟
-        App.alarmList.remove(alarm)
-
-        //取消所有闹钟
-        App.alarmList.forEach {
-            //取消闹钟
-            cancelAlarm(context, it.requestCode)
-            //重置code
-            it.requestCode = App.alarmList.indexOf(it)
-            //重启闹钟
-            addAlarm(context, alarm)
-        }
-    }
 
     /** 删除所有闹钟 */
     fun deleteAllAlarm(context: Context) {

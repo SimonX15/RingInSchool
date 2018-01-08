@@ -25,25 +25,15 @@ class AlarmAdapter(val context: Context, data: MutableList<Alarm>) : BaseQuickAd
         if (item == null) {
             return
         }
-        val tvHour: TextView? = helper?.getView(R.id.tv_hour)
-        val tvMinute: TextView? = helper?.getView(R.id.tv_minute)
+        val tvTime: TextView? = helper?.getView(R.id.tv_time)
         val tvIsOpening: TextView? = helper?.getView(R.id.tv_is_opening)
         val switchCompat: SwitchCompat? = helper?.getView(R.id.switch_compat)
 
+        helper?.addOnClickListener(R.id.tv_time)
         helper?.addOnClickListener(R.id.switch_compat)
 
-        item.run {
-            var hourString = hourOfDay.toString()
-            if (hourOfDay < 10) {
-                hourString = "0$hourString"
-            }
-            tvHour!!.text = hourString
-
-            var minuteString = minute.toString()
-            if (minute < 10) {
-                minuteString = "0$minuteString"
-            }
-            tvMinute!!.text = minuteString
+        item.apply {
+            tvTime!!.text = standardTime()
 
             switchCompat!!.isChecked = isOpening
             switchCompat.text = if (isOpening) {

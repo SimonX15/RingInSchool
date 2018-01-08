@@ -8,31 +8,19 @@
     android:padding="10dp"
     tools:background="#756723">
 
-    <TextView
-        android:id="@+id/tv_hour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        tools:text="20"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_time"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text=" : "
-        android:textSize="30sp"/>
-
-    <TextView
-        android:id="@+id/tv_minute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:padding="5dp"
         android:textSize="30sp"
-        tools:text="20"/>
+        tools:text="20:00"/>
 
     <TextView
         android:id="@+id/tv_is_opening"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
         android:layout_weight="1"
         android:textSize="20sp"
         tools:text="未开启"/>
