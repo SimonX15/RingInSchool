@@ -1,6 +1,7 @@
 package com.app.simon.ringinschool
 
 import android.app.Application
+import android.media.MediaPlayer
 import com.app.simon.ringinschool.alarm.models.Alarm
 import io.realm.Realm
 
@@ -24,5 +25,7 @@ class App : Application() {
     companion object {
         /** 闹钟列表 */
         val alarmList: ArrayList<Alarm> = ArrayList()
+        /** 全局的播放器 */
+        val mediaPlayer = MediaPlayer()
     }
 }

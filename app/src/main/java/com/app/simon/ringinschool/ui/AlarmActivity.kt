@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.app.simon.ringinschool.R
+import com.app.simon.ringinschool.utils.MediaPlayerUtil
 import org.jetbrains.anko.*
 
 class AlarmActivity : AppCompatActivity() {
@@ -14,13 +15,14 @@ class AlarmActivity : AppCompatActivity() {
         setContentView(R.layout.activity_second)
 
         val alert = alert {
-            title = "你设置的闹钟时间到了"
+            title = "你设置的闹钟时间到了，是否关闭？"
             okButton {
-                title = "知道了"
+                //                title = "停止"
                 finish()
+                MediaPlayerUtil.stop()
             }
             cancelButton {
-                title = "取消"
+                //                title = "取消"
                 finish()
             }
         }

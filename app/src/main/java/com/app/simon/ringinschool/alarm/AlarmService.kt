@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import com.app.simon.ringinschool.App
+import com.app.simon.ringinschool.utils.MediaPlayerUtil
 
 /**
  * desc: 闹钟 service
@@ -19,6 +20,9 @@ class AlarmService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
+        MediaPlayerUtil.play(this, "class_start.mp3")
+
         val alarmIndex = intent?.getIntExtra(AlarmManagerHelper.EXTRA_ALARM_INDEX, -1)
         Log.i(TAG, "onStartCommand：$alarmIndex")
         Log.i(TAG, App.alarmList.toString())

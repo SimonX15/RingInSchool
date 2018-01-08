@@ -3,7 +3,6 @@ package com.app.simon.ringinschool.ui
 import android.Manifest
 import android.app.TimePickerDialog
 import android.database.Cursor
-import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.os.Bundle
 import android.provider.MediaStore
@@ -26,10 +25,11 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
+    /** 最后一次点击返回的时间，用于判断退出 */
+    private var lastBackPressTime: Long = 0
+
     var adapter: AlarmAdapter? = null
     var musicList: ArrayList<Music> = ArrayList()
-
-    val mediaPlayer = MediaPlayer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,16 @@ class MainActivity : AppCompatActivity() {
 
         //        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         initViews()
-        //        AssetsUtil.play(this,"class_start.mp3")
+    }
+
+    override fun onBackPressed() {
+        val time = Calendar.getInstance().time.time
+        if (time - lastBackPressTime > 2000L) {
+            lastBackPressTime = time
+            toast("再按一次退出程序")
+        } else {
+            finish()
+        }
     }
 
     private fun initViews() {
@@ -119,15 +128,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         btn_play.onClick {
-            mediaPlayer.setDataSource(musicList[musicList.size - 2].path)
+            App.mediaPlayer.setDataSource(musicList[musicList.size - 2].path)
             //            mediaPlayer.prepareAsync()
-            mediaPlayer.prepare()
-            mediaPlayer.start()
+            App.mediaPlayer.prepare()
+            App.mediaPlayer.start()
         }
 
         btn_stop.onClick {
-            mediaPlayer.stop()
-            mediaPlayer.release()
+            App.mediaPlayer.stop()
+            App.mediaPlayer.release()
         }
     }
 
