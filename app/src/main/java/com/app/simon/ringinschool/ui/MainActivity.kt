@@ -16,7 +16,8 @@ import com.app.simon.ringinschool.R
 import com.app.simon.ringinschool.alarm.AlarmManagerHelper
 import com.app.simon.ringinschool.alarm.OnCompletedListener
 import com.app.simon.ringinschool.alarm.adapter.AlarmAdapter
-import com.app.simon.ringinschool.music.Music
+import com.app.simon.ringinschool.ring.models.Music
+import com.app.simon.ringinschool.utils.PermissionUtil
 import com.app.simon.ringinschool.utils.TimeUtil
 import com.app.simon.ringinschool.widgets.CustomerItemDecoration
 import kotlinx.android.synthetic.main.activity_main.*
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        PermissionUtil.requestPermissions(this)
         initViews()
     }
 

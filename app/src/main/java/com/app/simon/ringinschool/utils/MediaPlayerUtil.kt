@@ -19,7 +19,7 @@ object MediaPlayerUtil {
         if (App.mediaPlayer == null) {
             App.mediaPlayer = MediaPlayer()
         }
-        App.mediaPlayer!!.apply {
+        App.mediaPlayer?.apply {
             reset()
             setDataSource(music.fileDescriptor, music.startOffset, music.length)
             prepare()

@@ -1,4 +1,4 @@
-package com.app.simon.ringinschool.db
+package com.app.simon.ringinschool.ring.db
 
 /**
  * desc: 闹钟 Helper

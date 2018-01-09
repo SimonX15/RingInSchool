@@ -1,4 +1,4 @@
-package com.app.simon.ringinschool.db
+package com.app.simon.ringinschool.ring.db
 
 import io.realm.Realm
 import io.realm.RealmConfiguration

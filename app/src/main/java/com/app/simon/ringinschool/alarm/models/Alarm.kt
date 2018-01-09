@@ -23,21 +23,20 @@ open class Alarm(
         /** requestCode，用于闹钟设置 */
         var requestCode: Int = 0,
         /** 是否打开，打开就要响铃 */
-        var isOpening: Boolean = true
-        /** 是否打开，打开就要响铃 */
-        //        var isInAsset: Boolean = false,
-        /** 是否打开，打开就要响铃 */
-        //        var path: Boolean = false
+        var isOpening: Boolean = true,
+        /** 上课铃还是下课铃 */
+        var isClassStart: Boolean = false
 
 ) : RealmModel {
-    override fun toString(): String {
-        return transDate(timeInMills) + "——Alarm(timeInMills=$timeInMills, hourOfDay=$hourOfDay, minute=$minute, requestCode=$requestCode, isOpening=$isOpening)\n"
-    }
 
     /** 标准时间 */
     fun standardTime(): String {
         val df = DecimalFormat("00")  //保留两位数，如果不足两位则自动补零
         return df.format(hourOfDay) + " : " + df.format(minute)
+    }
+
+    override fun toString(): String {
+        return transDate(timeInMills) + " —— Alarm(hourOfDay=$hourOfDay, minute=$minute, timeInMills=$timeInMills, requestCode=$requestCode, isOpening=$isOpening, isClassStart=$isClassStart)"
     }
 
     private fun transDate(timeInMills: Long): String {
