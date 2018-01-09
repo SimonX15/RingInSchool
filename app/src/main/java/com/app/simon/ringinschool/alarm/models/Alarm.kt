@@ -24,10 +24,16 @@ open class Alarm(
         var requestCode: Int = 0,
         /** 是否打开，打开就要响铃 */
         var isOpening: Boolean = true,
-        /** 上课铃还是下课铃 */
-        var isClassStart: Boolean = false
+        /** 铃声类型 */
+        var alarmType: Int? = null
 
 ) : RealmModel {
+    /** 恩典之歌 */
+    val TYPE_GRACE = -1
+    /** 上课铃 */
+    val TYPE_START = 0
+    /** 下课铃 */
+    val TYPE_END = 1
 
     /** 标准时间 */
     fun standardTime(): String {
@@ -36,7 +42,7 @@ open class Alarm(
     }
 
     override fun toString(): String {
-        return transDate(timeInMills) + " —— Alarm(hourOfDay=$hourOfDay, minute=$minute, timeInMills=$timeInMills, requestCode=$requestCode, isOpening=$isOpening, isClassStart=$isClassStart)"
+        return transDate(timeInMills) + " —— Alarm(hourOfDay=$hourOfDay, minute=$minute, timeInMills=$timeInMills, requestCode=$requestCode, isOpening=$isOpening, alarmType=$alarmType)"
     }
 
     private fun transDate(timeInMills: Long): String {
@@ -45,3 +51,4 @@ open class Alarm(
         return sdf.format(chooseDate)
     }
 }
+

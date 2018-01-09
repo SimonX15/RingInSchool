@@ -1,12 +1,10 @@
 package com.app.simon.ringinschool.ui
 
-import android.Manifest
 import android.app.TimePickerDialog
 import android.database.Cursor
 import android.media.RingtoneManager
 import android.os.Bundle
 import android.provider.MediaStore
-import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SwitchCompat
@@ -168,41 +166,37 @@ class MainActivity : AppCompatActivity() {
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
                     .show()
         }
-
-        btn_permission.onClick {
-            ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
-        }
-
-        btn_search_music.onClick {
-            var cursor: Cursor? = null
-            try {
-                cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null,
-                        MediaStore.Audio.Media.DEFAULT_SORT_ORDER)
-                while (cursor.moveToNext()) {
-                    val path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)) // 路径
-
-                    val name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)) // 歌曲名
-                    val album = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)) // 专辑
-                    val artist = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)) // 作者
-                    val size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE)) // 大小
-                    val duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)) // 时长
-                    val time = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)) // 歌曲的id
-                    // int albumId = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
-
-                    val music = Music(path, name, artist, duration)
-                    Log.i(TAG, "music: $path")
-                    musicList.add(music)
-                }
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-            } finally {
-                cursor?.close()
-            }
-        }
     }
 
     private fun refreshViews() {
 
+    }
+
+    /** 查询所有的音乐 */
+    private fun searchExternalMusic() {
+        var cursor: Cursor? = null
+        try {
+            cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null,
+                    MediaStore.Audio.Media.DEFAULT_SORT_ORDER)
+            while (cursor.moveToNext()) {
+                val path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)) // 路径
+
+                val name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)) // 歌曲名
+                //                val album = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)) // 专辑
+                val artist = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)) // 作者
+                //                val size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE)) // 大小
+                val duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)) // 时长
+                //                val time = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)) // 歌曲的id
+
+                val music = Music(path, name, artist, duration)
+                Log.i(TAG, "music: $path")
+                musicList.add(music)
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        } finally {
+            cursor?.close()
+        }
     }
 
     /**

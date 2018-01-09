@@ -5,22 +5,48 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    tools:background="#756723">
-
+    tools:background="#f2f0e4">
 
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
         android:textSize="30sp"
-        tools:text="20:00"/>
+        tools:text="17:00"/>
+
+    <TextView
+        android:layout_width="1dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="14dp"
+        android:background="#7e7e7e"/>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_class_start"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="上课"
+                android:textSize="14sp"/>
+
+            <RadioButton
+                android:id="@+id/rb_class_end"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:text="下课"
+                android:textSize="14sp"/>
+        </RadioGroup>
 
         <TextView
             android:layout_width="match_parent"
@@ -31,7 +57,9 @@
             android:id="@+id/tv_is_opening"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:textSize="14sp"
             tools:text="未开启"/>
     </LinearLayout>
 
