@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SwitchCompat
 import android.util.Log
+import android.view.LayoutInflater
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.R
 import com.app.simon.ringinschool.alarm.AlarmManagerHelper
@@ -18,7 +19,7 @@ import com.app.simon.ringinschool.ring.models.Music
 import com.app.simon.ringinschool.utils.PermissionUtil
 import com.app.simon.ringinschool.utils.TimeUtil
 import com.app.simon.ringinschool.widgets.CustomerItemDecoration
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.cancelButton
 import org.jetbrains.anko.okButton
@@ -55,6 +56,74 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
+        tv_alarm_start.text = App.ring.startMusic?.name
+        tv_alarm_end.text = App.ring.endMusic?.name
+        tv_alarm_grace.text = App.ring.graceMusic?.name
+
+        initRecyclerView()
+
+        App.alarmList.forEach {
+            if (it.isOpening) {
+                sc_alarm_status.isChecked = true
+                sc_alarm_status.text = "全部开启"
+                return@forEach
+            }
+        }
+
+        sc_alarm_status.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.text = if (isChecked) {
+                App.alarmList.forEach {
+                    it.isOpening = true
+                }
+                AlarmManagerHelper.startAllAlarm(this)
+                "全部开启"
+            } else {
+                App.alarmList.forEach {
+                    it.isOpening = false
+                }
+                AlarmManagerHelper.cancelAllAlarm(this)
+                "全部关闭"
+            }
+            adapter?.notifyDataSetChanged()
+        }
+
+        btn_add_alarm.onClick {
+            val calendar = Calendar.getInstance()
+            //当前时间上加一分钟
+            calendar.add(Calendar.MINUTE, 1)
+
+            TimePickerDialog(this@MainActivity, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                if (TimeUtil.isSet(hourOfDay, minute)) {
+                    toast("已经设置过该时间的闹钟")
+                    return@OnTimeSetListener
+                }
+                AlarmManagerHelper.addAlarm(this@MainActivity, hourOfDay, minute, object : OnCompletedListener {
+                    override fun addAtPosition(position: Int) {
+                        adapter?.notifyItemInserted(position)
+                    }
+                })
+            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
+                    .show()
+        }
+
+        btn_set_default.onClick {
+            //重置为默认内容
+            val alert = alert {
+                title = "是否全部重置为默认设置，包括铃声和闹钟时间的设置"
+                okButton {
+                    // FIXME: 2018/1/10 by xw TODO: 重置为默认
+
+                }
+                cancelButton {
+
+                }
+            }
+            alert.isCancelable = false
+            alert.show()
+        }
+    }
+
+    private fun initRecyclerView() {
         adapter = AlarmAdapter(this, App.alarmList)
         adapter?.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
@@ -120,52 +189,10 @@ class MainActivity : AppCompatActivity() {
             }.show()
             true
         }
+        adapter?.emptyView = LayoutInflater.from(this).inflate(R.layout.partial_empty, null)
+
         recycler_view.adapter = adapter
         recycler_view.addItemDecoration(CustomerItemDecoration(this, LinearLayoutManager.VERTICAL))
-
-        App.alarmList.forEach {
-            if (it.isOpening) {
-                sc_alarm_status.isChecked = true
-                sc_alarm_status.text = "全部开启"
-                return@forEach
-            }
-        }
-
-        sc_alarm_status.setOnCheckedChangeListener { buttonView, isChecked ->
-            buttonView.text = if (isChecked) {
-                App.alarmList.forEach {
-                    it.isOpening = true
-                }
-                AlarmManagerHelper.startAllAlarm(this)
-                "全部开启"
-            } else {
-                App.alarmList.forEach {
-                    it.isOpening = false
-                }
-                AlarmManagerHelper.cancelAllAlarm(this)
-                "全部关闭"
-            }
-            adapter?.notifyDataSetChanged()
-        }
-
-        btn_start_alarm.onClick {
-            val calendar = Calendar.getInstance()
-            //当前时间上加一分钟
-            calendar.add(Calendar.MINUTE, 1)
-
-            TimePickerDialog(this@MainActivity, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-                if (TimeUtil.isSet(hourOfDay, minute)) {
-                    toast("已经设置过该时间的闹钟")
-                    return@OnTimeSetListener
-                }
-                AlarmManagerHelper.addAlarm(this@MainActivity, hourOfDay, minute, object : OnCompletedListener {
-                    override fun addAtPosition(position: Int) {
-                        adapter?.notifyItemInserted(position)
-                    }
-                })
-            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
-                    .show()
-        }
     }
 
     private fun refreshViews() {

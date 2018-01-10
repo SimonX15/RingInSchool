@@ -6,6 +6,7 @@ import android.widget.TextView
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.R
 import com.app.simon.ringinschool.alarm.models.Alarm
+import com.app.simon.ringinschool.alarm.models.AlarmType
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 
@@ -35,10 +36,10 @@ class AlarmAdapter(val context: Context, data: MutableList<Alarm>) : BaseQuickAd
             switchCompat!!.isChecked = isOpening
 
             when (alarmType) {
-                TYPE_START -> {
+                AlarmType.TYPE_START -> {
                     tvMusicName!!.text = App.ring.startMusic?.name
                 }
-                TYPE_END -> {
+                AlarmType.TYPE_END -> {
                     tvMusicName!!.text = App.ring.endMusic?.name
                 }
                 else -> {

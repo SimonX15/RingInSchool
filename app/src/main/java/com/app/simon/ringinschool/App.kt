@@ -4,6 +4,7 @@ import android.app.Application
 import android.media.MediaPlayer
 import com.app.simon.ringinschool.alarm.models.Alarm
 import com.app.simon.ringinschool.ring.models.Ring
+import com.app.simon.ringinschool.utils.DefaultUtil
 import io.realm.Realm
 
 /**
@@ -28,6 +29,9 @@ class App : Application() {
         //从db取数据
         alarmList
         ring
+        //默认
+        DefaultUtil.setAlarmDefault(this)
+        DefaultUtil.setRingDefault()
     }
 
     companion object {

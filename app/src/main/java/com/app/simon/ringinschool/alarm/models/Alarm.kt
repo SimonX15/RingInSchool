@@ -28,13 +28,6 @@ open class Alarm(
         var alarmType: Int? = null
 
 ) : RealmModel {
-    /** 上课铃 */
-    val TYPE_START = 0
-    /** 下课铃 */
-    val TYPE_END = 1
-    /** 恩典之歌 */
-    val TYPE_GRACE = 2
-
     /** 标准时间 */
     fun standardTime(): String {
         val df = DecimalFormat("00")  //保留两位数，如果不足两位则自动补零
