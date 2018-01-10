@@ -28,12 +28,12 @@ open class Alarm(
         var alarmType: Int? = null
 
 ) : RealmModel {
-    /** 恩典之歌 */
-    val TYPE_GRACE = -1
     /** 上课铃 */
     val TYPE_START = 0
     /** 下课铃 */
     val TYPE_END = 1
+    /** 恩典之歌 */
+    val TYPE_GRACE = 2
 
     /** 标准时间 */
     fun standardTime(): String {

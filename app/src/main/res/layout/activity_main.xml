@@ -67,7 +67,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="特别铃声："/>
+            android:text="赞美之歌："/>
 
         <TextView
             android:id="@+id/tv_alarm_grace"

@@ -2,8 +2,8 @@ package com.app.simon.ringinschool.alarm.adapter
 
 import android.content.Context
 import android.support.v7.widget.SwitchCompat
-import android.widget.RadioButton
 import android.widget.TextView
+import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.R
 import com.app.simon.ringinschool.alarm.models.Alarm
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -22,8 +22,7 @@ class AlarmAdapter(val context: Context, data: MutableList<Alarm>) : BaseQuickAd
             return
         }
         val tvTime: TextView? = helper?.getView(R.id.tv_time)
-        val rbClassStart: RadioButton? = helper?.getView(R.id.rb_class_start)
-        val rbClassEnd: RadioButton? = helper?.getView(R.id.rb_class_end)
+        val tvMusicName: TextView? = helper?.getView(R.id.tv_music_name)
         val tvIsOpening: TextView? = helper?.getView(R.id.tv_is_opening)
         val switchCompat: SwitchCompat? = helper?.getView(R.id.switch_compat)
 
@@ -35,10 +34,16 @@ class AlarmAdapter(val context: Context, data: MutableList<Alarm>) : BaseQuickAd
 
             switchCompat!!.isChecked = isOpening
 
-            if (alarmType) {
-                rbClassStart!!.isChecked = true
-            } else {
-                rbClassEnd!!.isChecked = true
+            when (alarmType) {
+                TYPE_START -> {
+                    tvMusicName!!.text = App.ring.startMusic?.name
+                }
+                TYPE_END -> {
+                    tvMusicName!!.text = App.ring.endMusic?.name
+                }
+                else -> {
+                    tvMusicName!!.text = App.ring.graceMusic?.name
+                }
             }
 
             tvIsOpening!!.text = if (isOpening) {
