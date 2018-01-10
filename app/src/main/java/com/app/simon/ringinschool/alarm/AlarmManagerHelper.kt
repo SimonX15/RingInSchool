@@ -61,7 +61,7 @@ object AlarmManagerHelper {
     /**
      * 更新闹钟
      */
-    fun updateAlarm(context: Context, fromPosition: Int, hourOfDay: Int, minute: Int, alarmType: Int?, onCompletedListener: OnCompletedListener? = null) {
+    fun updateAlarm(context: Context, fromPosition: Int, hourOfDay: Int, minute: Int, alarmType: Int, onCompletedListener: OnCompletedListener? = null) {
         Log.i(TAG, "updateAlarm start: ${App.alarmList}")
         //先取消闹钟
         cancelAllAlarm(context)

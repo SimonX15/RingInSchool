@@ -25,7 +25,7 @@ open class Alarm(
         /** 是否打开，打开就要响铃 */
         var isOpening: Boolean = true,
         /** 铃声类型 */
-        var alarmType: Int? = null
+        var alarmType: Int = AlarmType.TYPE_GRACE
 
 ) : RealmModel {
     /** 标准时间 */

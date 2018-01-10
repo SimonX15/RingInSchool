@@ -67,11 +67,8 @@ object PermissionUtil {
 
     /**
      * 请求权限处理
-
      * 1、若已拥有全部权限，则无处理
      * 2、否则提示去设置修改权限
-
-     * @param activity
      */
     fun checkAppPermission(context: Context) {
         Log.d(TAG, "checkAppPermission")

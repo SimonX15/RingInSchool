@@ -28,7 +28,7 @@ class AlarmService : Service() {
                 val alarm = App.alarmList[alarmIndex]
                 AlarmManagerHelper.updateAlarm(this@AlarmService, alarmIndex, alarm.hourOfDay, alarm.minute, alarm.alarmType)
                 //闹钟开始
-                MediaPlayerUtil.play(this@AlarmService, "")
+                MediaPlayerUtil.play(this@AlarmService, alarm.alarmType)
             }
         }
         return super.onStartCommand(intent, flags, startId)

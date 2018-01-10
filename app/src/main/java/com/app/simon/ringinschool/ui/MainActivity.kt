@@ -223,10 +223,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun refreshViews() {
-
-    }
-
     /** 查询所有的音乐 */
     private fun searchExternalMusic() {
         if (musicList.isNotEmpty()) {

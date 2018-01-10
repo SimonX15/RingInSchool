@@ -24,6 +24,8 @@ object DefaultUtil {
         Log.i(TAG, "setDefault start: ${App.alarmList}")
         //先取消闹钟
         AlarmManagerHelper.cancelAllAlarm(context)
+        //清空数据
+        App.alarmList.clear()
         //插入数据
         App.alarmList.add(Alarm(8, 30, alarmType = TYPE_START))
         App.alarmList.add(Alarm(8, 40, alarmType = TYPE_START))
