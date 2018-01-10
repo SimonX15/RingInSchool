@@ -16,15 +16,13 @@ import com.app.simon.ringinschool.alarm.AlarmManagerHelper
 import com.app.simon.ringinschool.alarm.OnCompletedListener
 import com.app.simon.ringinschool.alarm.adapter.AlarmAdapter
 import com.app.simon.ringinschool.ring.models.Music
+import com.app.simon.ringinschool.utils.DefaultUtil
 import com.app.simon.ringinschool.utils.PermissionUtil
 import com.app.simon.ringinschool.utils.TimeUtil
 import com.app.simon.ringinschool.widgets.CustomerItemDecoration
 import kotlinx.android.synthetic.main.content_main.*
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.cancelButton
-import org.jetbrains.anko.okButton
+import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import org.jetbrains.anko.toast
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -35,7 +33,11 @@ class MainActivity : AppCompatActivity() {
     private var lastBackPressTime: Long = 0
 
     var adapter: AlarmAdapter? = null
-    var musicList: ArrayList<Music> = ArrayList()
+
+    /** 音乐列表 */
+    private var musicList: ArrayList<Music> = ArrayList()
+    /** 只有名称 */
+    private var musicNameList: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,19 +58,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        tv_alarm_start.text = App.ring.startMusic?.name
-        tv_alarm_end.text = App.ring.endMusic?.name
-        tv_alarm_grace.text = App.ring.graceMusic?.name
-
+        refreshRingViews()
         initRecyclerView()
-
-        App.alarmList.forEach {
-            if (it.isOpening) {
-                sc_alarm_status.isChecked = true
-                sc_alarm_status.text = "全部开启"
-                return@forEach
-            }
-        }
 
         sc_alarm_status.setOnCheckedChangeListener { buttonView, isChecked ->
             buttonView.text = if (isChecked) {
@@ -87,7 +78,7 @@ class MainActivity : AppCompatActivity() {
             adapter?.notifyDataSetChanged()
         }
 
-        btn_add_alarm.onClick {
+        fl_add_alarm.onClick {
             val calendar = Calendar.getInstance()
             //当前时间上加一分钟
             calendar.add(Calendar.MINUTE, 1)
@@ -106,13 +97,14 @@ class MainActivity : AppCompatActivity() {
                     .show()
         }
 
-        btn_set_default.onClick {
+        tv_reset.onClick {
             //重置为默认内容
             val alert = alert {
                 title = "是否全部重置为默认设置，包括铃声和闹钟时间的设置"
                 okButton {
-                    // FIXME: 2018/1/10 by xw TODO: 重置为默认
-
+                    DefaultUtil.setAlarmDefault(this@MainActivity)
+                    DefaultUtil.setRingDefault()
+                    adapter?.notifyDataSetChanged()
                 }
                 cancelButton {
 
@@ -121,6 +113,34 @@ class MainActivity : AppCompatActivity() {
             alert.isCancelable = false
             alert.show()
         }
+
+        tv_change_start_ring.onClick {
+            searchExternalMusic()
+            selector("请选择上课铃声", musicNameList, { dialogInterface, i ->
+                App.ring.startMusic = musicList[i]
+                refreshRingViews()
+            })
+        }
+        tv_change_end_ring.onClick {
+            searchExternalMusic()
+            selector("请选择下课铃声", musicNameList, { dialogInterface, i ->
+                App.ring.endMusic = musicList[i]
+                refreshRingViews()
+            })
+        }
+        tv_change_grace_ring.onClick {
+            searchExternalMusic()
+            selector("请选择赞美之歌", musicNameList, { dialogInterface, i ->
+                App.ring.graceMusic = musicList[i]
+                refreshRingViews()
+            })
+        }
+    }
+
+    private fun refreshRingViews() {
+        tv_alarm_start.text = App.ring.startMusic?.name
+        tv_alarm_end.text = App.ring.endMusic?.name
+        tv_alarm_grace.text = App.ring.graceMusic?.name
     }
 
     private fun initRecyclerView() {
@@ -142,7 +162,7 @@ class MainActivity : AppCompatActivity() {
                             toast("已经设置过该时间的闹钟")
                             return@OnTimeSetListener
                         }
-                        AlarmManagerHelper.updateAlarm(this@MainActivity, position, hourOfDay, minute, object : OnCompletedListener {
+                        AlarmManagerHelper.updateAlarm(this@MainActivity, position, hourOfDay, minute, alarm.alarmType, object : OnCompletedListener {
                             override fun updateAtPosition(from: Int, to: Int) {
                                 adapter?.notifyItemChanged(from)
                                 adapter?.notifyItemMoved(from, to)
@@ -193,6 +213,14 @@ class MainActivity : AppCompatActivity() {
 
         recycler_view.adapter = adapter
         recycler_view.addItemDecoration(CustomerItemDecoration(this, LinearLayoutManager.VERTICAL))
+
+        App.alarmList.forEach {
+            if (it.isOpening) {
+                sc_alarm_status.isChecked = true
+                sc_alarm_status.text = "全部开启"
+                return@forEach
+            }
+        }
     }
 
     private fun refreshViews() {
@@ -201,6 +229,19 @@ class MainActivity : AppCompatActivity() {
 
     /** 查询所有的音乐 */
     private fun searchExternalMusic() {
+        if (musicList.isNotEmpty()) {
+            return
+        }
+        if (App.ring.startMusic != null) {
+            musicList.add(App.ring.startMusic!!)
+        }
+        if (App.ring.endMusic != null) {
+            musicList.add(App.ring.endMusic!!)
+        }
+        if (App.ring.graceMusic != null) {
+            musicList.add(App.ring.graceMusic!!)
+        }
+
         var cursor: Cursor? = null
         try {
             cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null,
@@ -216,12 +257,15 @@ class MainActivity : AppCompatActivity() {
                 //                val time = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)) // 歌曲的id
 
                 val music = Music(path, name, artist, duration)
-                Log.i(TAG, "music: $path")
                 musicList.add(music)
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
         } finally {
+            musicList.forEach {
+                musicNameList.add(it.name)
+            }
+            Log.i(TAG, "musicNameList: $musicNameList")
             cursor?.close()
         }
     }

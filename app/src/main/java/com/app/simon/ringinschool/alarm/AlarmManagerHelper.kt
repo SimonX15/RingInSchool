@@ -61,14 +61,14 @@ object AlarmManagerHelper {
     /**
      * 更新闹钟
      */
-    fun updateAlarm(context: Context, fromPosition: Int, hourOfDay: Int, minute: Int, onCompletedListener: OnCompletedListener? = null) {
+    fun updateAlarm(context: Context, fromPosition: Int, hourOfDay: Int, minute: Int, alarmType: Int?, onCompletedListener: OnCompletedListener? = null) {
         Log.i(TAG, "updateAlarm start: ${App.alarmList}")
         //先取消闹钟
         cancelAllAlarm(context)
         //删除
         App.alarmList.removeAt(fromPosition)
         //new
-        val currentAlarm = Alarm(hourOfDay, minute)
+        val currentAlarm = Alarm(hourOfDay, minute, alarmType = alarmType)
         //插入的位置
         var toPosition = App.alarmList.size
         loop@ for (index in 0 until App.alarmList.size) {

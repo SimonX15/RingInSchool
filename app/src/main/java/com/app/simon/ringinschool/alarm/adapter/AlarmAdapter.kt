@@ -3,7 +3,6 @@ package com.app.simon.ringinschool.alarm.adapter
 import android.content.Context
 import android.support.v7.widget.SwitchCompat
 import android.widget.TextView
-import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.R
 import com.app.simon.ringinschool.alarm.models.Alarm
 import com.app.simon.ringinschool.alarm.models.AlarmType
@@ -37,13 +36,13 @@ class AlarmAdapter(val context: Context, data: MutableList<Alarm>) : BaseQuickAd
 
             when (alarmType) {
                 AlarmType.TYPE_START -> {
-                    tvMusicName!!.text = App.ring.startMusic?.name
+                    tvMusicName!!.text = "上课铃声"
                 }
                 AlarmType.TYPE_END -> {
-                    tvMusicName!!.text = App.ring.endMusic?.name
+                    tvMusicName!!.text = "下课铃声"
                 }
                 else -> {
-                    tvMusicName!!.text = App.ring.graceMusic?.name
+                    tvMusicName!!.text = "赞美之歌"
                 }
             }
 

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
     tools:showIn="@layout/activity_main">
 
     <LinearLayout
@@ -23,16 +27,19 @@
             android:text="默认"
             android:textColor="#85b8fa"/>
 
-        <Button
-            android:id="@+id/btn_alarm_start"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
+        <TextView
+            android:id="@+id/tv_change_start_ring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_change"
+            android:drawablePadding="5dp"
             android:text="更改"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:gravity="center_vertical">
 
         <TextView
@@ -48,16 +55,20 @@
             android:text="默认"
             android:textColor="#85b8fa"/>
 
-        <Button
-            android:id="@+id/btn_alarm_end"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
+        <TextView
+            android:id="@+id/tv_change_end_ring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_change"
+            android:drawablePadding="5dp"
             android:text="更改"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_vertical">
 
         <TextView
@@ -73,22 +84,35 @@
             android:text="默认"
             android:textColor="#85b8fa"/>
 
-        <Button
-            android:id="@+id/btn_alarm_grace"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
+        <TextView
+            android:id="@+id/tv_change_grace_ring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_change"
+            android:drawablePadding="5dp"
             android:text="更改"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="#7e7e7e"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:gravity="center_vertical">
 
-        <Button
-            android:id="@+id/btn_set_default"
+        <TextView
+            android:id="@+id/tv_reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_reset"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
             android:text="重置"/>
 
         <android.support.v4.widget.Space
@@ -120,9 +144,18 @@
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         tools:listitem="@layout/item_alarm"/>
 
-    <Button
-        android:id="@+id/btn_add_alarm"
+    <FrameLayout
+        android:id="@+id/fl_add_alarm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="添加闹钟"/>
-</merge>
+        android:background="#f1eeee">
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ic_add"/>
+    </FrameLayout>
+
+
+</LinearLayout>

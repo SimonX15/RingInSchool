@@ -26,7 +26,7 @@ class AlarmService : Service() {
         alarmIndex?.run {
             if (alarmIndex != -1 && alarmIndex < App.alarmList.size) {
                 val alarm = App.alarmList[alarmIndex]
-                AlarmManagerHelper.updateAlarm(this@AlarmService, alarmIndex, alarm.hourOfDay, alarm.minute)
+                AlarmManagerHelper.updateAlarm(this@AlarmService, alarmIndex, alarm.hourOfDay, alarm.minute, alarm.alarmType)
                 //闹钟开始
                 MediaPlayerUtil.play(this@AlarmService, "")
             }

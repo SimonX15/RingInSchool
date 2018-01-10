@@ -52,8 +52,8 @@ object DefaultUtil {
 
     /** 设置默认的铃声 */
     fun setRingDefault() {
-        App.ring.startMusic = Music("assets/default_start.wav", "上课铃")
-        App.ring.endMusic = Music("assets/default_end.wav", "下课铃")
-        App.ring.graceMusic = Music("assets/amazing_grace.mp3", "赞美之歌")
+        App.ring.startMusic = Music("assets/default_start.wav", "默认上课铃声")
+        App.ring.endMusic = Music("assets/default_end.wav", "默认下课铃声")
+        App.ring.graceMusic = Music("assets/amazing_grace.mp3", "默认赞美之歌")
     }
 }
