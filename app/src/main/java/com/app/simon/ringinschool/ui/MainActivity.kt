@@ -2,7 +2,6 @@ package com.app.simon.ringinschool.ui
 
 import android.app.TimePickerDialog
 import android.database.Cursor
-import android.media.RingtoneManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
@@ -116,21 +115,21 @@ class MainActivity : AppCompatActivity() {
 
         tv_change_start_ring.onClick {
             searchExternalMusic()
-            selector("请选择上课铃声", musicNameList, { dialogInterface, i ->
+            selector("请选择上课铃声", musicNameList, { _, i ->
                 App.ring.startMusic = musicList[i]
                 refreshRingViews()
             })
         }
         tv_change_end_ring.onClick {
             searchExternalMusic()
-            selector("请选择下课铃声", musicNameList, { dialogInterface, i ->
+            selector("请选择下课铃声", musicNameList, { _, i ->
                 App.ring.endMusic = musicList[i]
                 refreshRingViews()
             })
         }
         tv_change_grace_ring.onClick {
             searchExternalMusic()
-            selector("请选择赞美之歌", musicNameList, { dialogInterface, i ->
+            selector("请选择赞美之歌", musicNameList, { _, i ->
                 App.ring.graceMusic = musicList[i]
                 refreshRingViews()
             })
@@ -154,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                     calendar.set(Calendar.HOUR_OF_DAY, alarm.hourOfDay)
                     calendar.set(Calendar.MINUTE, alarm.minute)
 
-                    TimePickerDialog(this@MainActivity, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                    TimePickerDialog(this@MainActivity, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                         if (hourOfDay == alarm.hourOfDay && minute == alarm.minute) {
                             return@OnTimeSetListener
                         }
@@ -264,16 +263,6 @@ class MainActivity : AppCompatActivity() {
             Log.i(TAG, "musicNameList: $musicNameList")
             cursor?.close()
         }
-    }
-
-    /**
-     * 播放来电铃声的默认音乐
-     */
-    private fun playRingtoneDefault() {
-        val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
-        val mRingtone = RingtoneManager.getRingtone(this, uri)
-        mRingtone.play()
-        //        mRingtone.stop()
     }
 
     companion object {

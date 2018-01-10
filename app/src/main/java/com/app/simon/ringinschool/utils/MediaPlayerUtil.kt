@@ -18,18 +18,18 @@ object MediaPlayerUtil {
         App.ring.apply {
             val musicPath = when (alarmType) {
                 AlarmType.TYPE_START -> {
-                    startMusic.path
+                    startMusic?.path
                 }
                 AlarmType.TYPE_END -> {
-                    endMusic.path
+                    endMusic?.path
                 }
                 else -> {
-                    graceMusic.path
+                    graceMusic?.path
                 }
             }
 
             //assets
-            if (musicPath.startsWith("assets/")) {
+            if (musicPath!!.startsWith("assets/")) {
                 playAssetsMusic(context, musicPath.substringAfter("/"))
             }
             //本地音乐

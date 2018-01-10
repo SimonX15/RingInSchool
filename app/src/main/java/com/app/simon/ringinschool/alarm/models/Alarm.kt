@@ -35,7 +35,7 @@ open class Alarm(
     }
 
     override fun toString(): String {
-        return transDate(timeInMills) + " —— Alarm(hourOfDay=$hourOfDay, minute=$minute, timeInMills=$timeInMills, requestCode=$requestCode, isOpening=$isOpening, alarmType=$alarmType)"
+        return transDate(timeInMills) + " —— Alarm(hourOfDay=$hourOfDay, minute=$minute, timeInMills=$timeInMills, requestCode=$requestCode, isOpening=$isOpening, alarmType=$alarmType)\n"
     }
 
     private fun transDate(timeInMills: Long): String {
