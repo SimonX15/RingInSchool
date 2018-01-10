@@ -18,6 +18,6 @@ open class Ring(
 ) : RealmModel {
 
     override fun toString(): String {
-        return "Ring(startMusic=$startMusic, endMusic=$endMusic)"
+        return "Ring(startMusic=$startMusic, endMusic=$endMusic, graceMusic=$graceMusic)"
     }
 }

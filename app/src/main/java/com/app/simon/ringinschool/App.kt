@@ -27,8 +27,8 @@ class App : Application() {
 
     private fun initData() {
         //从db取数据
-        alarmList
-        ring
+        //        alarmList
+        //        ring
         //默认
         DefaultUtil.setAlarmDefault(this)
         DefaultUtil.setRingDefault()
