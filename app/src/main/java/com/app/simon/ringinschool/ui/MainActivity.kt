@@ -14,12 +14,8 @@ import com.app.simon.ringinschool.R
 import com.app.simon.ringinschool.alarm.AlarmManagerHelper
 import com.app.simon.ringinschool.alarm.OnCompletedListener
 import com.app.simon.ringinschool.alarm.adapter.AlarmAdapter
-import com.app.simon.ringinschool.ring.db.AlarmDBHelper
-import com.app.simon.ringinschool.ring.db.OnDBCompleteListener
 import com.app.simon.ringinschool.ring.models.Music
-import com.app.simon.ringinschool.utils.DefaultUtil
-import com.app.simon.ringinschool.utils.PermissionUtil
-import com.app.simon.ringinschool.utils.TimeUtil
+import com.app.simon.ringinschool.utils.*
 import com.app.simon.ringinschool.widgets.CustomerItemDecoration
 import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.*
@@ -53,7 +49,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        AlarmDBHelper.addAlarmList(App.alarmList, object : OnDBCompleteListener {
+        val alarmJson = GsonUtil.toJson(App.alarmList)
+        Log.i(TAG, "alarmJson:$alarmJson ")
+        SpUtil.spAlarmList.set(alarmJson)
+
+        val ringJson = GsonUtil.toJson(App.ring)
+        Log.i(TAG, "ringJson:$ringJson ")
+        SpUtil.spRing.set(ringJson)
+        /*AlarmDBHelper.addAlarmList(App.alarmList, object : OnDBCompleteListener {
             override fun onResult(results: List<Any>?) {
 
             }
@@ -63,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onError(throwable: Throwable) {
-                Log.i(TAG, "addAlarmList $throwable")
+                Log.e(TAG, "addAlarmList $throwable")
             }
         })
         AlarmDBHelper.setRing(App.ring, object : OnDBCompleteListener {
@@ -76,9 +79,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onError(throwable: Throwable) {
-                Log.i(TAG, "setRing $throwable")
+                Log.e(TAG, "setRing $throwable")
             }
-        })
+        })*/
     }
 
     override fun onBackPressed() {
@@ -123,7 +126,7 @@ class MainActivity : AppCompatActivity() {
             //当前时间上加一分钟
             calendar.add(Calendar.MINUTE, 1)
 
-            TimePickerDialog(this@MainActivity, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+            TimePickerDialog(this@MainActivity, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                 if (TimeUtil.isSet(hourOfDay, minute)) {
                     toast("已经设置过该时间的闹钟")
                     return@OnTimeSetListener
@@ -300,7 +303,7 @@ class MainActivity : AppCompatActivity() {
                 val duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)) // 时长
                 //                val time = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)) // 歌曲的id
 
-                val music = Music(path, name, artist, duration)
+                val music = Music(path, name)
                 musicList.add(music)
             }
         } catch (ex: Exception) {

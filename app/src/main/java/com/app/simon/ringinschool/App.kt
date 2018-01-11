@@ -2,14 +2,14 @@ package com.app.simon.ringinschool
 
 import android.app.Application
 import android.media.MediaPlayer
+import android.preference.PreferenceManager
 import android.util.Log
 import com.app.simon.ringinschool.alarm.models.Alarm
-import com.app.simon.ringinschool.ring.db.AlarmDBHelper
-import com.app.simon.ringinschool.ring.db.OnDBCompleteListener
 import com.app.simon.ringinschool.ring.models.Ring
 import com.app.simon.ringinschool.utils.DefaultUtil
-import io.realm.Realm
-import org.jetbrains.anko.toast
+import com.app.simon.ringinschool.utils.GsonUtil
+import com.app.simon.ringinschool.utils.SpUtil
+import com.f2prateek.rx.preferences2.RxSharedPreferences
 
 /**
  * desc: App
@@ -22,16 +22,26 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         initRealm()
-        initData()
+        //        initDataFromDB()
+        initDataFromSp()
+        initSp()
     }
 
     private fun initRealm() {
-        Realm.init(this)
+        //        Realm.init(this)
+        //Stetho初始化
+        //        Stetho.initialize(
+        //                Stetho.newInitializerBuilder(this)
+        //                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+        //                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+        //                        .build()
+        //        )
     }
 
-    private fun initData() {
+    @Deprecated("不用DB")
+    private fun initDataFromDB() {
         //从db取数据
-        AlarmDBHelper.queryAlarmList(object : OnDBCompleteListener {
+        /*AlarmDBHelper.queryAlarmList(object : OnDBCompleteListener {
             override fun onResult(results: List<Any>?) {
                 results?.forEach {
                     alarmList.add(it as Alarm)
@@ -48,7 +58,7 @@ class App : Application() {
 
             override fun onError(throwable: Throwable) {
                 toast("读取闹钟列表失败")
-                Log.i(TAG, "queryAlarmList $throwable")
+                Log.e(TAG, "queryAlarmList $throwable")
                 //默认
                 DefaultUtil.setAlarmDefault(this@App)
             }
@@ -70,16 +80,43 @@ class App : Application() {
 
             override fun onError(throwable: Throwable) {
                 toast("读取闹钟列表失败")
-                Log.i(TAG, "queryRing $throwable")
+                Log.e(TAG, "queryRing $throwable")
                 DefaultUtil.setRingDefault()
             }
-        })
+        })*/
+    }
+
+    private fun initSp() {
+        SpUtil.rxSharedPreferences = RxSharedPreferences.create(PreferenceManager.getDefaultSharedPreferences(this))
+    }
+
+    private fun initDataFromSp() {
+        val alarmSpJson = SpUtil.spAlarmList
+        Log.i(TAG, "alarmSpJson:$alarmSpJson ")
+        val alarmListSP = GsonUtil.toObj<ArrayList<Alarm>>(alarmSpJson.toString(), ArrayList::class.java)
+        if (alarmListSP.isEmpty()) {
+            DefaultUtil.setAlarmDefault(this@App)
+        } else {
+            alarmListSP?.apply {
+                alarmList.addAll(alarmListSP)
+            }
+        }
+
+        val ringSpJson = SpUtil.spRing
+        Log.i(TAG, "ringSpJson:$ringSpJson ")
+        val ringSp = GsonUtil.toObj<Ring>(ringSpJson.toString(), Ring::class.java)
+        if (ringSp == null) {
+            DefaultUtil.setRingDefault()
+        } else {
+            ring.startMusic = ringSp.startMusic
+            ring.endMusic = ringSp.endMusic
+            ring.graceMusic = ringSp.graceMusic
+        }
 
     }
 
     companion object {
         private val TAG = App::class.java.simpleName
-
         /** 闹钟列表 */
         val alarmList: ArrayList<Alarm> = ArrayList()
         /** 全局的播放器 */

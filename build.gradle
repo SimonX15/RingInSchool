@@ -18,7 +18,7 @@ buildscript {
         // in the individual module build.gradle files
 
         //Realm
-        classpath "io.realm:realm-gradle-plugin:4.3.1"
+//        classpath "io.realm:realm-gradle-plugin:4.3.1"
     }
 }
 
@@ -31,6 +31,9 @@ allprojects {
 //        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
 //        maven {
 //            url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
+//        }
+//        maven {
+//            url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo'
 //        }
     }
 }
