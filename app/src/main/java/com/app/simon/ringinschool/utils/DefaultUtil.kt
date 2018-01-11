@@ -40,7 +40,7 @@ object DefaultUtil {
 
     private fun getAlarmList(): ArrayList<Alarm> {
         val list = ArrayList<Alarm>()
-        list.add(Alarm(8, 30, alarmType = TYPE_GRACE))
+        list.add(Alarm(8, 30, alarmType = TYPE_START))
         list.add(Alarm(8, 40, alarmType = TYPE_START))
         list.add(Alarm(9, 20, alarmType = TYPE_END))
         list.add(Alarm(9, 30, alarmType = TYPE_START))

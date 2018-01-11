@@ -4,12 +4,15 @@ import android.app.Application
 import android.media.MediaPlayer
 import android.preference.PreferenceManager
 import android.util.Log
+import com.app.simon.ringinschool.alarm.AlarmManagerHelper
 import com.app.simon.ringinschool.alarm.models.Alarm
 import com.app.simon.ringinschool.ring.models.Ring
 import com.app.simon.ringinschool.utils.DefaultUtil
 import com.app.simon.ringinschool.utils.GsonUtil
 import com.app.simon.ringinschool.utils.SpUtil
+import com.app.simon.ringinschool.utils.TimeUtil
 import com.f2prateek.rx.preferences2.RxSharedPreferences
+import com.google.gson.reflect.TypeToken
 
 /**
  * desc: App
@@ -93,18 +96,27 @@ class App : Application() {
     private fun initDataFromSp() {
         val alarmSpJson = SpUtil.spAlarmList
         Log.i(TAG, "alarmSpJson:${alarmSpJson.get()} ")
-        val alarmListSP = GsonUtil.toObj<ArrayList<Alarm>>(alarmSpJson.toString(), ArrayList::class.java)
+        val type = object : TypeToken<ArrayList<Alarm>>() {
+        }.type
+        val alarmListSP = GsonUtil.toObj<ArrayList<Alarm>>(alarmSpJson.get(), type)
         if (alarmListSP == null || alarmListSP.isEmpty()) {
             DefaultUtil.setAlarmDefault(this@App)
         } else {
-            alarmListSP.apply {
-                alarmList.addAll(alarmListSP)
-            }
+            //先取消闹钟
+            AlarmManagerHelper.cancelAllAlarm(this)
+            //清空数据
+            App.alarmList.clear()
+            //插入数据
+            alarmList.addAll(alarmListSP)
+            //重置，主要是更新时间和闹钟的code
+            TimeUtil.resetAllAlarmWithCode()
+            //开启所有闹钟
+            AlarmManagerHelper.startAllAlarm(this)
         }
 
         val ringSpJson = SpUtil.spRing
         Log.i(TAG, "ringSpJson:${ringSpJson.get()} ")
-        val ringSp = GsonUtil.toObj<Ring>(ringSpJson.toString(), Ring::class.java)
+        val ringSp = GsonUtil.toObj<Ring>(ringSpJson.get(), Ring::class.java)
         if (ringSp == null) {
             DefaultUtil.setRingDefault()
         } else {
