@@ -2,8 +2,10 @@ package com.app.simon.ringinschool.utils
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.alarm.models.AlarmType
+import java.io.File
 
 /**
  * desc: 音乐播放
@@ -12,6 +14,7 @@ import com.app.simon.ringinschool.alarm.models.AlarmType
  * @author xw
  */
 object MediaPlayerUtil {
+    private val TAG = MediaPlayerUtil::class.java.simpleName
 
     /** 播放音乐 */
     fun play(context: Context, alarmType: Int) {
@@ -31,6 +34,7 @@ object MediaPlayerUtil {
             //assets
             if (musicPath!!.startsWith("assets/")) {
                 playAssetsMusic(context, musicPath.substringAfter("/"))
+                Log.i(TAG, "musicPath: ${musicPath.substringAfter("/")}")
             }
             //本地音乐
             else {
@@ -48,6 +52,12 @@ object MediaPlayerUtil {
 
     /** 播放本地音乐 */
     private fun playExternalMusic(musicPath: String) {
+        //判断文件是否存在
+        val file = File(musicPath)
+        if (!file.exists()) {
+            return
+        }
+
         if (App.mediaPlayer == null) {
             App.mediaPlayer = MediaPlayer()
         }

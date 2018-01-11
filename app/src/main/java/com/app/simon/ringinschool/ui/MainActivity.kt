@@ -14,6 +14,8 @@ import com.app.simon.ringinschool.R
 import com.app.simon.ringinschool.alarm.AlarmManagerHelper
 import com.app.simon.ringinschool.alarm.OnCompletedListener
 import com.app.simon.ringinschool.alarm.adapter.AlarmAdapter
+import com.app.simon.ringinschool.ring.db.AlarmDBHelper
+import com.app.simon.ringinschool.ring.db.OnDBCompleteListener
 import com.app.simon.ringinschool.ring.models.Music
 import com.app.simon.ringinschool.utils.DefaultUtil
 import com.app.simon.ringinschool.utils.PermissionUtil
@@ -37,13 +39,46 @@ class MainActivity : AppCompatActivity() {
     private var musicList: ArrayList<Music> = ArrayList()
     /** 只有名称 */
     private var musicNameList: ArrayList<String> = ArrayList()
+    /** 闹钟类型 */
+    private var alarmTypeList: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initData()
         PermissionUtil.requestPermissions(this)
         initViews()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        AlarmDBHelper.addAlarmList(App.alarmList, object : OnDBCompleteListener {
+            override fun onResult(results: List<Any>?) {
+
+            }
+
+            override fun onSuccess() {
+                Log.i(TAG, "addAlarmList onSuccess: ")
+            }
+
+            override fun onError(throwable: Throwable) {
+                Log.i(TAG, "addAlarmList $throwable")
+            }
+        })
+        AlarmDBHelper.setRing(App.ring, object : OnDBCompleteListener {
+            override fun onResult(results: List<Any>?) {
+
+            }
+
+            override fun onSuccess() {
+                Log.i(TAG, "setRing onSuccess: ")
+            }
+
+            override fun onError(throwable: Throwable) {
+                Log.i(TAG, "setRing $throwable")
+            }
+        })
     }
 
     override fun onBackPressed() {
@@ -54,6 +89,12 @@ class MainActivity : AppCompatActivity() {
         } else {
             finish()
         }
+    }
+
+    private fun initData() {
+        alarmTypeList.add("上课铃声")
+        alarmTypeList.add("下课铃声")
+        alarmTypeList.add("赞美之歌")
     }
 
     private fun initViews() {
@@ -146,6 +187,14 @@ class MainActivity : AppCompatActivity() {
         adapter = AlarmAdapter(this, App.alarmList)
         adapter?.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
+            //选择是上课铃声还是下课铃声
+                R.id.tv_music_name -> {
+                    selector("请选择响铃类型", alarmTypeList, { _, i ->
+                        val alarm = App.alarmList[position]
+                        alarm.alarmType = position
+                        adapter?.notifyItemChanged(position)
+                    })
+                }
             //更改时间
                 R.id.tv_time -> {
                     val alarm = App.alarmList[position]

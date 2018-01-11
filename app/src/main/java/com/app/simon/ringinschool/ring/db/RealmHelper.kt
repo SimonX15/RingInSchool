@@ -10,7 +10,7 @@ import io.realm.RealmConfiguration
  * @author xw
  */
 object RealmHelper {
-    private val TAG = RealmHelper::class.java.simpleName
+    //    private val TAG = RealmHelper::class.java.simpleName
     private val REALM_NAME = "my_realm.realm"
 
     /** 获取realm对象 */

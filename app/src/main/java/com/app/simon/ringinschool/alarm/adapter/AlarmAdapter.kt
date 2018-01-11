@@ -27,6 +27,7 @@ class AlarmAdapter(val context: Context, data: MutableList<Alarm>) : BaseQuickAd
         val switchCompat: SwitchCompat? = helper?.getView(R.id.switch_compat)
 
         helper?.addOnClickListener(R.id.tv_time)
+        helper?.addOnClickListener(R.id.tv_music_name)
         helper?.addOnClickListener(R.id.switch_compat)
 
         item.apply {

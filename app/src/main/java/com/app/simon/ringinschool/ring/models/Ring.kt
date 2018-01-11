@@ -1,6 +1,7 @@
 package com.app.simon.ringinschool.ring.models
 
 import io.realm.RealmModel
+import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 
 /**
@@ -11,6 +12,8 @@ import io.realm.annotations.RealmClass
  */
 @RealmClass
 open class Ring(
+        @PrimaryKey
+        var id: Int = 0, //id
         var startMusic: Music? = null, //上课铃声
         var endMusic: Music? = null, //下课铃声
         var graceMusic: Music? = null //恩典之歌

@@ -9,6 +9,7 @@ import com.app.simon.ringinschool.alarm.models.AlarmType.TYPE_END
 import com.app.simon.ringinschool.alarm.models.AlarmType.TYPE_GRACE
 import com.app.simon.ringinschool.alarm.models.AlarmType.TYPE_START
 import com.app.simon.ringinschool.ring.models.Music
+import java.util.*
 
 /**
  * desc: 默认工具
@@ -27,29 +28,56 @@ object DefaultUtil {
         //清空数据
         App.alarmList.clear()
         //插入数据
-        App.alarmList.add(Alarm(8, 30, alarmType = TYPE_START))
-        App.alarmList.add(Alarm(8, 40, alarmType = TYPE_START))
-        App.alarmList.add(Alarm(9, 20, alarmType = TYPE_END))
-        App.alarmList.add(Alarm(9, 30, alarmType = TYPE_START))
-        App.alarmList.add(Alarm(10, 10, alarmType = TYPE_END))
-        App.alarmList.add(Alarm(10, 30, alarmType = TYPE_START))
-        App.alarmList.add(Alarm(11, 10, alarmType = TYPE_END))
-        App.alarmList.add(Alarm(11, 20, alarmType = TYPE_START))
-        App.alarmList.add(Alarm(12, 0, alarmType = TYPE_END))
-        App.alarmList.add(Alarm(13, 0, alarmType = TYPE_START))
-        App.alarmList.add(Alarm(13, 20, alarmType = TYPE_END))
-        App.alarmList.add(Alarm(13, 30, alarmType = TYPE_START))
-        App.alarmList.add(Alarm(14, 10, alarmType = TYPE_END))
-        App.alarmList.add(Alarm(14, 20, alarmType = TYPE_START))
-        App.alarmList.add(Alarm(15, 0, alarmType = TYPE_END))
-        App.alarmList.add(Alarm(15, 10, alarmType = TYPE_START))
-        App.alarmList.add(Alarm(15, 50, alarmType = TYPE_END))
-        App.alarmList.add(Alarm(16, 0, alarmType = TYPE_GRACE))
+        //        getAlarmList().forEach {
+        getDebugAlarmList().forEach {
+            App.alarmList.add(it)
+        }
         //重置，主要是更新时间和闹钟的code
         TimeUtil.resetAllAlarmWithCode()
         //开启所有闹钟
         AlarmManagerHelper.startAllAlarm(context)
         Log.i(TAG, "setDefault end: ${App.alarmList}")
+    }
+
+    private fun getAlarmList(): ArrayList<Alarm> {
+        val list = ArrayList<Alarm>()
+        list.add(Alarm(8, 30, alarmType = TYPE_GRACE))
+        list.add(Alarm(8, 40, alarmType = TYPE_START))
+        list.add(Alarm(9, 20, alarmType = TYPE_END))
+        list.add(Alarm(9, 30, alarmType = TYPE_START))
+        list.add(Alarm(10, 10, alarmType = TYPE_END))
+        list.add(Alarm(10, 30, alarmType = TYPE_START))
+        list.add(Alarm(11, 10, alarmType = TYPE_END))
+        list.add(Alarm(11, 20, alarmType = TYPE_START))
+        list.add(Alarm(12, 0, alarmType = TYPE_END))
+        list.add(Alarm(13, 0, alarmType = TYPE_START))
+        list.add(Alarm(13, 20, alarmType = TYPE_END))
+        list.add(Alarm(13, 30, alarmType = TYPE_START))
+        list.add(Alarm(14, 10, alarmType = TYPE_END))
+        list.add(Alarm(14, 20, alarmType = TYPE_START))
+        list.add(Alarm(15, 0, alarmType = TYPE_END))
+        list.add(Alarm(15, 10, alarmType = TYPE_START))
+        list.add(Alarm(15, 50, alarmType = TYPE_END))
+        list.add(Alarm(16, 0, alarmType = TYPE_GRACE))
+        return list
+    }
+
+    private fun getDebugAlarmList(): ArrayList<Alarm> {
+        val list = ArrayList<Alarm>()
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.MINUTE, 1)
+        list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_GRACE))
+        calendar.add(Calendar.MINUTE, 1)
+        list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_START))
+        calendar.add(Calendar.MINUTE, 1)
+        list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_END))
+        calendar.add(Calendar.MINUTE, 1)
+        list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_GRACE))
+        calendar.add(Calendar.MINUTE, 1)
+        list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_START))
+        calendar.add(Calendar.MINUTE, 1)
+        list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_END))
+        return list
     }
 
     /** 设置默认的铃声 */

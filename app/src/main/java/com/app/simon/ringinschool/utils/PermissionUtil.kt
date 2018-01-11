@@ -20,7 +20,7 @@ import java.util.*
  * @author xw
  */
 object PermissionUtil {
-    val TAG = PermissionUtil::class.java.simpleName
+    private val TAG = PermissionUtil::class.java.simpleName!!
 
     //    private var needCheckPermissions = arrayOf("存储空间")
     private var needCheckPermissions = arrayOf("位置信息", "存储空间", "电话", "读取联系人")
@@ -129,7 +129,7 @@ object PermissionUtil {
 
         AlertDialog.Builder(context)
                 .setMessage(msg)
-                .setPositiveButton("打开设置") { dialogInterface, i ->
+                .setPositiveButton("打开设置") { _, _ ->
                     val packageName = context.applicationContext.packageName
                     val packageURI = Uri.parse("package:" + packageName)
                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI)
