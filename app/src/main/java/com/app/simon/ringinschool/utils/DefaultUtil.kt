@@ -1,7 +1,6 @@
 package com.app.simon.ringinschool.utils
 
 import android.content.Context
-import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.alarm.AlarmManagerHelper
 import com.app.simon.ringinschool.alarm.models.Alarm
@@ -22,7 +21,7 @@ object DefaultUtil {
 
     /** 设置默认闹钟 */
     fun setAlarmDefault(context: Context) {
-        Log.i(TAG, "setDefault start: ${App.alarmList}")
+        //        Log.i(TAG, "setDefault start: ${App.alarmList}")
         //先取消闹钟
         AlarmManagerHelper.cancelAllAlarm(context)
         //清空数据
@@ -36,7 +35,7 @@ object DefaultUtil {
         TimeUtil.resetAllAlarmWithCode()
         //开启所有闹钟
         AlarmManagerHelper.startAllAlarm(context)
-        Log.i(TAG, "setDefault end: ${App.alarmList}")
+        //        Log.i(TAG, "setDefault end: ${App.alarmList}")
     }
 
     private fun getAlarmList(): ArrayList<Alarm> {

@@ -56,32 +56,6 @@ class MainActivity : AppCompatActivity() {
         val ringJson = GsonUtil.toJson(App.ring)
         Log.i(TAG, "ringJson:$ringJson ")
         SpUtil.spRing.set(ringJson)
-        /*AlarmDBHelper.addAlarmList(App.alarmList, object : OnDBCompleteListener {
-            override fun onResult(results: List<Any>?) {
-
-            }
-
-            override fun onSuccess() {
-                Log.i(TAG, "addAlarmList onSuccess: ")
-            }
-
-            override fun onError(throwable: Throwable) {
-                Log.e(TAG, "addAlarmList $throwable")
-            }
-        })
-        AlarmDBHelper.setRing(App.ring, object : OnDBCompleteListener {
-            override fun onResult(results: List<Any>?) {
-
-            }
-
-            override fun onSuccess() {
-                Log.i(TAG, "setRing onSuccess: ")
-            }
-
-            override fun onError(throwable: Throwable) {
-                Log.e(TAG, "setRing $throwable")
-            }
-        })*/
     }
 
     override fun onBackPressed() {
@@ -194,7 +168,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.tv_music_name -> {
                     selector("请选择响铃类型", alarmTypeList, { _, i ->
                         val alarm = App.alarmList[position]
-                        alarm.alarmType = position
+                        alarm.alarmType = i
                         adapter?.notifyItemChanged(position)
                     })
                 }

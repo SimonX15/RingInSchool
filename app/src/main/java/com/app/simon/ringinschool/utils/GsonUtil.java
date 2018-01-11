@@ -74,7 +74,7 @@ public class GsonUtil {
         try {
             return gson.fromJson(json, classOfT);
         } catch (JsonSyntaxException e) {
-            Log.e(TAG, json + " 解析json失败");
+            Log.e(TAG, json + " 解析json失败" + e.toString());
         }
         return null;
     }
@@ -91,7 +91,7 @@ public class GsonUtil {
         try {
             return gson.fromJson(json, typeOfT);
         } catch (JsonSyntaxException e) {
-            Log.e(TAG, json + " 解析json失败");
+            Log.e(TAG, json + " 解析json失败" + e.toString());
         }
         return null;
     }

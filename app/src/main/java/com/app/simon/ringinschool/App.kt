@@ -21,10 +21,14 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        initSp()
         initRealm()
         //        initDataFromDB()
         initDataFromSp()
-        initSp()
+    }
+
+    private fun initSp() {
+        SpUtil.rxSharedPreferences = RxSharedPreferences.create(PreferenceManager.getDefaultSharedPreferences(this))
     }
 
     private fun initRealm() {
@@ -86,24 +90,20 @@ class App : Application() {
         })*/
     }
 
-    private fun initSp() {
-        SpUtil.rxSharedPreferences = RxSharedPreferences.create(PreferenceManager.getDefaultSharedPreferences(this))
-    }
-
     private fun initDataFromSp() {
         val alarmSpJson = SpUtil.spAlarmList
-        Log.i(TAG, "alarmSpJson:$alarmSpJson ")
+        Log.i(TAG, "alarmSpJson:${alarmSpJson.get()} ")
         val alarmListSP = GsonUtil.toObj<ArrayList<Alarm>>(alarmSpJson.toString(), ArrayList::class.java)
-        if (alarmListSP.isEmpty()) {
+        if (alarmListSP == null || alarmListSP.isEmpty()) {
             DefaultUtil.setAlarmDefault(this@App)
         } else {
-            alarmListSP?.apply {
+            alarmListSP.apply {
                 alarmList.addAll(alarmListSP)
             }
         }
 
         val ringSpJson = SpUtil.spRing
-        Log.i(TAG, "ringSpJson:$ringSpJson ")
+        Log.i(TAG, "ringSpJson:${ringSpJson.get()} ")
         val ringSp = GsonUtil.toObj<Ring>(ringSpJson.toString(), Ring::class.java)
         if (ringSp == null) {
             DefaultUtil.setRingDefault()

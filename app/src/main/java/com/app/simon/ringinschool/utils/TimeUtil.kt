@@ -63,16 +63,6 @@ object TimeUtil {
         choose.set(Calendar.MINUTE, minute)
         choose.set(Calendar.SECOND, 0)
 
-        //        Log.i(TAG, "current mills：${current.timeInMillis}")
-        //        Log.i(TAG, "current HOUR_OF_DAY：${current.get(Calendar.HOUR_OF_DAY)}")
-        //        Log.i(TAG, "current MINUTE：${current.get(Calendar.MINUTE)}")
-        //        Log.i(TAG, "current SECOND：${current.get(Calendar.SECOND)}")
-        //
-        //        Log.i(TAG, "choose mills：${choose.timeInMillis}")
-        //        Log.i(TAG, "choose HOUR_OF_DAY：${choose.get(Calendar.HOUR_OF_DAY)}")
-        //        Log.i(TAG, "choose MINUTE：${choose.get(Calendar.MINUTE)}")
-        //        Log.i(TAG, "choose SECOND：${choose.get(Calendar.SECOND)}")
-
         //如果选择的时间<=当前的时间，闹钟要设置在一天之后
         //小于小时
         if (hourOfDay < current.get(Calendar.HOUR_OF_DAY)) {

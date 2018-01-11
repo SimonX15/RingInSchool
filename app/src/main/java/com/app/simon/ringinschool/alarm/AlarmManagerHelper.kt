@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.alarm.models.Alarm
 import com.app.simon.ringinschool.utils.TimeUtil
@@ -32,7 +31,7 @@ object AlarmManagerHelper {
      *
      */
     fun addAlarm(context: Context, hourOfDay: Int, minute: Int, onCompletedListener: OnCompletedListener? = null) {
-        Log.i(TAG, "addAlarm start: ${App.alarmList}")
+        //        Log.i(TAG, "addAlarm start: ${App.alarmList}")
         //先取消闹钟
         cancelAllAlarm(context)
         //new
@@ -55,14 +54,14 @@ object AlarmManagerHelper {
         TimeUtil.resetAllAlarmWithCode()
         //开启所有闹钟
         startAllAlarm(context)
-        Log.i(TAG, "addAlarm end: ${App.alarmList}")
+        //        Log.i(TAG, "addAlarm end: ${App.alarmList}")
     }
 
     /**
      * 更新闹钟
      */
     fun updateAlarm(context: Context, fromPosition: Int, hourOfDay: Int, minute: Int, alarmType: Int, onCompletedListener: OnCompletedListener? = null) {
-        Log.i(TAG, "updateAlarm start: ${App.alarmList}")
+        //        Log.i(TAG, "updateAlarm start: ${App.alarmList}")
         //先取消闹钟
         cancelAllAlarm(context)
         //删除
@@ -87,21 +86,21 @@ object AlarmManagerHelper {
         TimeUtil.resetAllAlarmWithCode()
         //开启所有闹钟
         startAllAlarm(context)
-        Log.i(TAG, "updateAlarm end: ${App.alarmList}")
+        //        Log.i(TAG, "updateAlarm end: ${App.alarmList}")
     }
 
     /**
      * 删除闹钟
      */
     fun deleteAlarm(context: Context, fromPosition: Int, onCompletedListener: OnCompletedListener? = null) {
-        Log.i(TAG, "deleteAlarm start: ${App.alarmList}")
+        //        Log.i(TAG, "deleteAlarm start: ${App.alarmList}")
         //先取消闹钟
         cancelAlarm(context, App.alarmList[fromPosition])
         //删除
         App.alarmList.removeAt(fromPosition)
         //返回index，作为更新使用
         onCompletedListener?.deleteAtPosition(fromPosition)
-        Log.i(TAG, "deleteAlarm end: ${App.alarmList}")
+        //        Log.i(TAG, "deleteAlarm end: ${App.alarmList}")
     }
 
     /** 开启闹钟 */
@@ -109,12 +108,12 @@ object AlarmManagerHelper {
         //添加闹钟的时候重新设置mills
         TimeUtil.refreshAlarmTime(alarm)
 
-        Log.i(TAG, "startAlarm：$alarm")
+        //        Log.i(TAG, "startAlarm：$alarm")
         //如果不是开启的，则不需设置
         if (!alarm.isOpening) {
             return
         }
-        Log.i(TAG, App.alarmList.toString())
+        //        Log.i(TAG, App.alarmList.toString())
         if (alarmManager == null) {
             alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         }
