@@ -3,7 +3,6 @@ package com.app.simon.ringinschool
 import android.app.Application
 import android.media.MediaPlayer
 import android.preference.PreferenceManager
-import android.util.Log
 import com.app.simon.ringinschool.alarm.AlarmManagerHelper
 import com.app.simon.ringinschool.alarm.models.Alarm
 import com.app.simon.ringinschool.ring.models.Ring
@@ -95,7 +94,7 @@ class App : Application() {
 
     private fun initDataFromSp() {
         val alarmSpJson = SpUtil.spAlarmList
-        Log.i(TAG, "alarmSpJson:${alarmSpJson.get()} ")
+        //        Log.i(TAG, "alarmSpJson:${alarmSpJson.get()} ")
         val type = object : TypeToken<ArrayList<Alarm>>() {
         }.type
         val alarmListSP = GsonUtil.toObj<ArrayList<Alarm>>(alarmSpJson.get(), type)
@@ -115,7 +114,7 @@ class App : Application() {
         }
 
         val ringSpJson = SpUtil.spRing
-        Log.i(TAG, "ringSpJson:${ringSpJson.get()} ")
+        //        Log.i(TAG, "ringSpJson:${ringSpJson.get()} ")
         val ringSp = GsonUtil.toObj<Ring>(ringSpJson.get(), Ring::class.java)
         if (ringSp == null) {
             DefaultUtil.setRingDefault()

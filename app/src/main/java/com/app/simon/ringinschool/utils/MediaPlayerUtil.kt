@@ -2,7 +2,6 @@ package com.app.simon.ringinschool.utils
 
 import android.content.Context
 import android.media.MediaPlayer
-import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.alarm.models.AlarmType
 import java.io.File
@@ -34,7 +33,7 @@ object MediaPlayerUtil {
             //assets
             if (musicPath!!.startsWith("assets/")) {
                 playAssetsMusic(context, musicPath.substringAfter("/"))
-                Log.i(TAG, "musicPath: ${musicPath.substringAfter("/")}")
+                //                Log.i(TAG, "musicPath: ${musicPath.substringAfter("/")}")
             }
             //本地音乐
             else {

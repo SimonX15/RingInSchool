@@ -55,7 +55,7 @@ object AlarmManagerHelper {
         TimeUtil.resetAllAlarmWithCode()
         //开启所有闹钟
         startAllAlarm(context)
-        //        Log.i(TAG, "addAlarm end: ${App.alarmList}")
+        Log.i(TAG, "addAlarm end: ${App.alarmList}")
     }
 
     /**
@@ -101,7 +101,7 @@ object AlarmManagerHelper {
         App.alarmList.removeAt(fromPosition)
         //返回index，作为更新使用
         onCompletedListener?.deleteAtPosition(fromPosition)
-        //        Log.i(TAG, "deleteAlarm end: ${App.alarmList}")
+        Log.i(TAG, "deleteAlarm end: ${App.alarmList}")
     }
 
     /** 开启闹钟 */

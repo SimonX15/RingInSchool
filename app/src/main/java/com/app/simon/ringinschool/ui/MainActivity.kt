@@ -7,7 +7,6 @@ import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SwitchCompat
-import android.util.Log
 import android.view.LayoutInflater
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.R
@@ -50,11 +49,11 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         val alarmJson = GsonUtil.toJson(App.alarmList)
-        Log.i(TAG, "alarmJson:$alarmJson ")
+        //        Log.i(TAG, "alarmJson:$alarmJson ")
         SpUtil.spAlarmList.set(alarmJson)
 
         val ringJson = GsonUtil.toJson(App.ring)
-        Log.i(TAG, "ringJson:$ringJson ")
+        //        Log.i(TAG, "ringJson:$ringJson ")
         SpUtil.spRing.set(ringJson)
     }
 
@@ -122,6 +121,7 @@ class MainActivity : AppCompatActivity() {
                     DefaultUtil.setAlarmDefault(this@MainActivity)
                     DefaultUtil.setRingDefault()
                     adapter?.notifyDataSetChanged()
+                    refreshRingViews()
                 }
                 cancelButton {
 
@@ -211,14 +211,14 @@ class MainActivity : AppCompatActivity() {
                     }
                     //notify
                     adapter?.notifyItemChanged(position)
-                    Log.i(TAG, "alarm: $alarm")
+                    //                    Log.i(TAG, "alarm: $alarm")
                 }
                 else -> {
                 }
             }
         }
 
-        adapter?.setOnItemLongClickListener { adapter, view, position ->
+        adapter?.setOnItemLongClickListener { adapter, _, position ->
             alert {
                 title = "是否删除当前闹钟"
                 okButton {
@@ -286,7 +286,7 @@ class MainActivity : AppCompatActivity() {
             musicList.forEach {
                 musicNameList.add(it.name)
             }
-            Log.i(TAG, "musicNameList: $musicNameList")
+            //            Log.i(TAG, "musicNameList: $musicNameList")
             cursor?.close()
         }
     }
