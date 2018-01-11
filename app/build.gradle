@@ -29,10 +29,27 @@ android {
             signingConfig signingConfigs.config
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //apk名称
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    outputFileName = "app_v${defaultConfig.versionName}_${releaseTime()}.apk"
+                    /*def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        def fileName = "${outputFile.name.replace(".apk", "")}-v${defaultConfig.versionName}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }*/
+                }
+            }
         }
+
+
     }
     productFlavors {
     }
+}
+
+static def releaseTime() {
+    return new Date().format("yyyy-MM-dd HHmmss")
 }
 
 dependencies {
