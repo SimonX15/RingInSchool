@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.alarm.models.Alarm
 import com.app.simon.ringinschool.utils.TimeUtil
@@ -86,7 +87,7 @@ object AlarmManagerHelper {
         TimeUtil.resetAllAlarmWithCode()
         //开启所有闹钟
         startAllAlarm(context)
-        //        Log.i(TAG, "updateAlarm end: ${App.alarmList}")
+        Log.i(TAG, "updateAlarm end: ${App.alarmList}")
     }
 
     /**
