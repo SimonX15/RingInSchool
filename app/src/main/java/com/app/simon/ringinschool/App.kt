@@ -3,6 +3,7 @@ package com.app.simon.ringinschool
 import android.app.Application
 import android.media.MediaPlayer
 import android.preference.PreferenceManager
+import android.util.Log
 import com.app.simon.ringinschool.alarm.AlarmManagerHelper
 import com.app.simon.ringinschool.alarm.models.Alarm
 import com.app.simon.ringinschool.ring.models.Ring
@@ -23,6 +24,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Log.i(TAG, "Application onCreate")
         initSp()
         initRealm()
         //        initDataFromDB()

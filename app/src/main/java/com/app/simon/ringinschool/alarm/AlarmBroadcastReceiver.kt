@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.app.simon.ringinschool.ui.AlarmActivity
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
 /**
  * desc: 广播接收系统通知
@@ -14,7 +15,7 @@ import org.jetbrains.anko.AnkoLogger
  */
 class AlarmBroadcastReceiver : BroadcastReceiver(), AnkoLogger {
     override fun onReceive(context: Context?, intent: Intent?) {
-        //        info("AlarmBroadcastReceiver onReceive")
+        info("AlarmBroadcastReceiver onReceive")
         context?.run {
             //            toast("你设置的闹铃时间到了")
             val alarmIntent = Intent(context, AlarmService::class.java)
