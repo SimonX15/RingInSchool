@@ -118,13 +118,16 @@ object AlarmManagerHelper {
         if (alarmManager == null) {
             alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         }
-        val intent = Intent(context, AlarmBroadcastReceiver::class.java)
+
+        //直接跳往service，不经过广播
+        val intent = Intent(context, AlarmService::class.java)
+        //        val intent = Intent(context, AlarmBroadcastReceiver::class.java)
         intent.putExtra(EXTRA_ALARM_INDEX, App.alarmList.indexOf(alarm))
-        val pendingIntent = PendingIntent.getBroadcast(context, alarm.requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
-
+        val pendingIntent = PendingIntent.getService(context, alarm.requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        //        val pendingIntent = PendingIntent.getBroadcast(context, alarm.requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
         //固定时间通知
-        alarmManager?.setWindow(AlarmManager.RTC_WAKEUP, alarm.timeInMills, 1000, pendingIntent)
-
+        alarmManager?.setExact(AlarmManager.RTC_WAKEUP, alarm.timeInMills, pendingIntent)
+        //        alarmManager?.setWindow(AlarmManager.RTC_WAKEUP, alarm.timeInMills, 1000, pendingIntent)
         //            val calendar = Calendar.getInstance()
         //            //当前时间上加一分钟
         //            calendar.add(Calendar.MINUTE, 1)
@@ -170,8 +173,10 @@ object AlarmManagerHelper {
             alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         }
         alarmManager?.apply {
-            val intent = Intent(context, AlarmBroadcastReceiver::class.java)
-            val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+            val intent = Intent(context, AlarmService::class.java)
+            val pendingIntent = PendingIntent.getService(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+            //            val intent = Intent(context, AlarmBroadcastReceiver::class.java)
+            //            val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
             //取消正在执行的服务
             cancel(pendingIntent)
         }

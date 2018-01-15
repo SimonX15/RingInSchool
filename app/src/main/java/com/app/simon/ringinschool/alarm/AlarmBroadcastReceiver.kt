@@ -3,7 +3,6 @@ package com.app.simon.ringinschool.alarm
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.app.simon.ringinschool.ui.AlarmActivity
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
@@ -13,6 +12,7 @@ import org.jetbrains.anko.info
  *
  * @author xw
  */
+@Deprecated("不经过广播")
 class AlarmBroadcastReceiver : BroadcastReceiver(), AnkoLogger {
     override fun onReceive(context: Context?, intent: Intent?) {
         info("AlarmBroadcastReceiver onReceive")
@@ -23,7 +23,7 @@ class AlarmBroadcastReceiver : BroadcastReceiver(), AnkoLogger {
             alarmIntent.putExtra(AlarmManagerHelper.EXTRA_ALARM_INDEX, alarmIndex)
             startService(alarmIntent)
 
-            AlarmActivity.launch(context)
+            //            AlarmActivity.launch(context)
         }
     }
 }

@@ -27,7 +27,7 @@ object DefaultUtil {
         //清空数据
         App.alarmList.clear()
         //插入数据
-        //        getAlarmList().forEach {
+        //                getAlarmList().forEach {
         getDebugAlarmList().forEach {
             App.alarmList.add(it)
         }

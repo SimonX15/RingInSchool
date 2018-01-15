@@ -73,6 +73,9 @@ object TimeUtil {
             choose.add(Calendar.DAY_OF_YEAR, 1)
         }
 
+        //-1分钟，提前一分钟响
+        choose.add(Calendar.MINUTE, -1)
+
         /*val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val chooseDate = choose.time
         val chooseFormat = sdf.format(chooseDate)
