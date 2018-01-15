@@ -6,6 +6,7 @@ import android.os.IBinder
 import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.utils.MediaPlayerUtil
+import java.util.*
 
 /**
  * desc: 闹钟 service
@@ -26,9 +27,15 @@ class AlarmService : Service() {
         alarmIndex?.run {
             if (alarmIndex != -1 && alarmIndex < App.alarmList.size) {
                 val alarm = App.alarmList[alarmIndex]
-                AlarmManagerHelper.updateAlarm(this@AlarmService, alarmIndex, alarm.hourOfDay, alarm.minute, alarm.alarmType)
                 //闹钟开始
                 MediaPlayerUtil.play(this@AlarmService, alarm.alarmType)
+                //延迟设置，避免重复响铃
+                Timer().schedule(object : TimerTask() {
+                    override fun run() {
+                        AlarmManagerHelper.updateAlarm(this@AlarmService, alarmIndex, alarm.hourOfDay, alarm.minute, alarm.alarmType)
+                    }
+                }, 1000 * 90) //1分半钟之后再更新，避免当前分钟内，重复响铃
+
             }
         }
         return super.onStartCommand(intent, flags, startId)

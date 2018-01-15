@@ -2,6 +2,7 @@ package com.app.simon.ringinschool.utils
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.alarm.models.AlarmType
 import java.io.File
@@ -29,7 +30,7 @@ object MediaPlayerUtil {
                     graceMusic?.path
                 }
             }
-
+            Log.i(TAG, "musicPath: $musicPath")
             //assets
             if (musicPath!!.startsWith("assets/")) {
                 playAssetsMusic(context, musicPath.substringAfter("/"))

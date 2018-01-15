@@ -64,17 +64,17 @@ object DefaultUtil {
     private fun getDebugAlarmList(): ArrayList<Alarm> {
         val list = ArrayList<Alarm>()
         val calendar = Calendar.getInstance()
-        calendar.add(Calendar.MINUTE, 1)
+        calendar.add(Calendar.MINUTE, 2)
         list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_GRACE))
-        calendar.add(Calendar.MINUTE, 1)
+        calendar.add(Calendar.MINUTE, 2)
         list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_START))
-        calendar.add(Calendar.MINUTE, 1)
+        calendar.add(Calendar.MINUTE, 2)
         list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_END))
-        calendar.add(Calendar.MINUTE, 1)
+        calendar.add(Calendar.MINUTE, 2)
         list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_GRACE))
-        calendar.add(Calendar.MINUTE, 1)
+        calendar.add(Calendar.MINUTE, 2)
         list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_START))
-        calendar.add(Calendar.MINUTE, 1)
+        calendar.add(Calendar.MINUTE, 2)
         list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_END))
         return list
     }
