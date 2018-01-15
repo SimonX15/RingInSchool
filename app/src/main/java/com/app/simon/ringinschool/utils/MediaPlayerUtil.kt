@@ -88,13 +88,12 @@ object MediaPlayerUtil {
 
     /** 播放内置音乐 */
     private fun playAssetsMusic(context: Context, musicPath: String) {
-        if (App.mediaPlayer == null) {
-            App.mediaPlayer = MediaPlayer()
-        }
-
         val assetManager = context.assets
         val assetMusic = assetManager.openFd(musicPath)
 
+        if (App.mediaPlayer == null) {
+            App.mediaPlayer = MediaPlayer()
+        }
         App.mediaPlayer!!.apply {
             reset()
             //先调整音量

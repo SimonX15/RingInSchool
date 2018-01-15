@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Context
 import android.media.AudioManager
 import android.os.Vibrator
+import android.util.Log
 
 
 /**
@@ -13,11 +14,11 @@ import android.os.Vibrator
  * @author xw
  */
 object ServiceUtil {
-
+    private val TAG = ServiceUtil::class.java.simpleName
     /** 音量管理 */
-    var audioManager: AudioManager? = null
+    private var audioManager: AudioManager? = null
     /** 当前音量 */
-    var currentVolume = 0
+    private var currentVolume = 0
 
     /** 设置音量为最大 */
     fun setAudioVolumeMax(context: Context) {
@@ -25,7 +26,11 @@ object ServiceUtil {
             audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         }
         audioManager?.apply {
-            currentVolume = getStreamVolume(AudioManager.STREAM_MUSIC)
+            //只获取一次，如果不是0，才更改
+            if (currentVolume == 0) {
+                currentVolume = getStreamVolume(AudioManager.STREAM_MUSIC)
+            }
+            Log.i(TAG, "currentVolume: $currentVolume")
             //            val maxVolume = getStreamMaxVolume(AudioManager.STREAM_MUSIC)
             setStreamVolume(AudioManager.STREAM_MUSIC, getStreamMaxVolume(AudioManager.STREAM_MUSIC), AudioManager.FLAG_PLAY_SOUND)
         }
