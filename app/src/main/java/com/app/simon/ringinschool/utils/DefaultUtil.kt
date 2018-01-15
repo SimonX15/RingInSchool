@@ -8,6 +8,8 @@ import com.app.simon.ringinschool.alarm.models.AlarmType.TYPE_END
 import com.app.simon.ringinschool.alarm.models.AlarmType.TYPE_GRACE
 import com.app.simon.ringinschool.alarm.models.AlarmType.TYPE_START
 import com.app.simon.ringinschool.ring.models.Music
+import com.app.simon.ringinschool.ring.models.Ring
+import com.google.gson.reflect.TypeToken
 import java.util.*
 
 /**
@@ -18,6 +20,41 @@ import java.util.*
  */
 object DefaultUtil {
     private val TAG = DefaultUtil::class.java.simpleName
+
+    /** 初始化闹钟 */
+    fun initAlarmFromSp(context: Context) {
+        val alarmSpJson = SpUtil.spAlarmList
+        //        Log.i(TAG, "alarmSpJson:${alarmSpJson.get()} ")
+        val type = object : TypeToken<ArrayList<Alarm>>() {
+        }.type
+        val alarmListSP = GsonUtil.toObj<ArrayList<Alarm>>(alarmSpJson.get(), type)
+        if (alarmListSP == null || alarmListSP.isEmpty()) {
+            DefaultUtil.setAlarmDefault(context)
+        } else {
+            //先取消闹钟
+            AlarmManagerHelper.cancelAllAlarm(context)
+            //清空数据
+            App.alarmList.clear()
+            //插入数据
+            App.alarmList.addAll(alarmListSP)
+            //重置，主要是更新时间和闹钟的code
+            TimeUtil.resetAllAlarmWithCode()
+            //开启所有闹钟
+            AlarmManagerHelper.startAllAlarm(context)
+        }
+
+        val ringSpJson = SpUtil.spRing
+        //        Log.i(TAG, "ringSpJson:${ringSpJson.get()} ")
+        val ringSp = GsonUtil.toObj<Ring>(ringSpJson.get(), Ring::class.java)
+        if (ringSp == null) {
+            setRingDefault()
+        } else {
+            App.ring.startMusic = ringSp.startMusic
+            App.ring.endMusic = ringSp.endMusic
+            App.ring.graceMusic = ringSp.graceMusic
+        }
+
+    }
 
     /** 设置默认闹钟 */
     fun setAlarmDefault(context: Context) {

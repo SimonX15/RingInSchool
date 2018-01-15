@@ -7,6 +7,7 @@ import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SwitchCompat
+import android.util.Log
 import android.view.LayoutInflater
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.R
@@ -41,6 +42,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Log.i(TAG, "MainActivity onCreate: ")
+
+        DefaultUtil.initAlarmFromSp(this)
         initData()
         PermissionUtil.requestPermissions(this)
         initViews()
@@ -277,7 +281,7 @@ class MainActivity : AppCompatActivity() {
                 val duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)) // 时长
                 //                val time = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)) // 歌曲的id
 
-                val music = Music(path, name)
+                val music = Music(path, name, duration)
                 musicList.add(music)
             }
         } catch (ex: Exception) {

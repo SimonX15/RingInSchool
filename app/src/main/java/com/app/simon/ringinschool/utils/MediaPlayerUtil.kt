@@ -5,7 +5,10 @@ import android.media.MediaPlayer
 import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.alarm.models.AlarmType
+import com.app.simon.ringinschool.ring.models.Music
+import org.jetbrains.anko.toast
 import java.io.File
+import java.util.*
 
 /**
  * desc: 音乐播放
@@ -19,17 +22,19 @@ object MediaPlayerUtil {
     /** 播放音乐 */
     fun play(context: Context, alarmType: Int) {
         App.ring.apply {
-            val musicPath = when (alarmType) {
+            val music = when (alarmType) {
                 AlarmType.TYPE_START -> {
-                    startMusic?.path
+                    startMusic
                 }
                 AlarmType.TYPE_END -> {
-                    endMusic?.path
+                    endMusic
                 }
                 else -> {
-                    graceMusic?.path
+                    graceMusic
                 }
             }
+            val musicPath = music?.path
+
             Log.i(TAG, "musicPath: $musicPath")
             //assets
             if (musicPath!!.startsWith("assets/")) {
@@ -38,23 +43,24 @@ object MediaPlayerUtil {
             }
             //本地音乐
             else {
-                playExternalMusic(musicPath)
+                playExternalMusic(context, music)
             }
-
-            //超过时间就停止
-            //        Timer().schedule(object : TimerTask() {
-            //            override fun run() {
-            //                stop()
-            //            }
-            //        }, 1000 * 5)
         }
+        //超过时间就停止
+        //        Timer().schedule(object : TimerTask() {
+        //            override fun run() {
+        //                stop()
+        //            }
+        //        }, 1000 * 5)
     }
 
+
     /** 播放本地音乐 */
-    private fun playExternalMusic(musicPath: String) {
+    private fun playExternalMusic(context: Context, music: Music) {
         //判断文件是否存在
-        val file = File(musicPath)
+        val file = File(music.path)
         if (!file.exists()) {
+            context.toast("当前音乐文件不存在")
             return
         }
 
@@ -63,7 +69,18 @@ object MediaPlayerUtil {
         }
         App.mediaPlayer!!.apply {
             reset()
-            setDataSource(musicPath)
+            //先调整音量
+            ServiceUtil.setAudioVolumeMax(context)
+            //震动时间
+            ServiceUtil.vibrate(context, music.duration.toLong())
+            //设置资源
+            setDataSource(music.path)
+            Timer().schedule(object : TimerTask() {
+                override fun run() {
+                    //重置音量
+                    ServiceUtil.resetAudioVolume(context)
+                }
+            }, music.duration.toLong())
             prepare()
             start()
         }
@@ -76,11 +93,22 @@ object MediaPlayerUtil {
         }
 
         val assetManager = context.assets
-        val music = assetManager.openFd(musicPath)
+        val assetMusic = assetManager.openFd(musicPath)
 
         App.mediaPlayer!!.apply {
             reset()
-            setDataSource(music.fileDescriptor, music.startOffset, music.length)
+            //先调整音量
+            ServiceUtil.setAudioVolumeMax(context)
+            //震动时间
+            ServiceUtil.vibrate(context, assetMusic.length)
+            //设置资源
+            setDataSource(assetMusic.fileDescriptor, assetMusic.startOffset, assetMusic.length)
+            Timer().schedule(object : TimerTask() {
+                override fun run() {
+                    //重置音量
+                    ServiceUtil.resetAudioVolume(context)
+                }
+            }, assetMusic.length)
             prepare()
             start()
         }

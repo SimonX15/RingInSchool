@@ -8,11 +8,11 @@ package com.app.simon.ringinschool.ring.models
  */
 data class Music(
         var path: String = "", //路径
-        var name: String = "" //歌曲名称
+        var name: String = "", //歌曲名称
         //        var artist: String = "", //作者
-        //        var duration: Int = 0 //时长
+        var duration: Int = 0 //时长
 ) {
     override fun toString(): String {
-        return "Music(path='$path', name='$name')"
+        return "Music(path='$path', name='$name', duration=$duration)"
     }
 }
