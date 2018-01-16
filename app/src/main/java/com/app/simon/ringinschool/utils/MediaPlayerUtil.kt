@@ -72,7 +72,7 @@ object MediaPlayerUtil {
             //先调整音量
             ServiceUtil.setAudioVolumeMax(context)
             //震动时间
-            ServiceUtil.vibrate(context, music.duration.toLong())
+            //            ServiceUtil.vibrate(context, music.duration.toLong())
             //设置资源
             setDataSource(music.path)
             Timer().schedule(object : TimerTask() {
@@ -99,7 +99,7 @@ object MediaPlayerUtil {
             //先调整音量
             ServiceUtil.setAudioVolumeMax(context)
             //震动时间
-            ServiceUtil.vibrate(context, assetMusic.length)
+            //            ServiceUtil.vibrate(context, assetMusic.length)
             //设置资源
             setDataSource(assetMusic.fileDescriptor, assetMusic.startOffset, assetMusic.length)
             Timer().schedule(object : TimerTask() {

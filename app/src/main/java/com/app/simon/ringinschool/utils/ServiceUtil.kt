@@ -47,6 +47,7 @@ object ServiceUtil {
     }
 
     /** 震动milliseconds毫秒 */
+    @Deprecated("不用了")
     fun vibrate(context: Context, milliseconds: Long) {
         val vib = context.getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
         vib.vibrate(milliseconds)

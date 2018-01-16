@@ -1,6 +1,7 @@
 package com.app.simon.ringinschool.ui
 
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.MediaStore
@@ -293,6 +294,10 @@ class MainActivity : AppCompatActivity() {
             //            Log.i(TAG, "musicNameList: $musicNameList")
             cursor?.close()
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
     }
 
     companion object {

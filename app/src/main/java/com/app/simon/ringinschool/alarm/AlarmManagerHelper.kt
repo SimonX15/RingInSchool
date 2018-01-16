@@ -109,7 +109,7 @@ object AlarmManagerHelper {
         //添加闹钟的时候重新设置mills
         TimeUtil.refreshAlarmTime(alarm)
 
-        //        Log.i(TAG, "startAlarm：$alarm")
+        Log.i(TAG, "startAlarm：$alarm")
         //如果不是开启的，则不需设置
         if (!alarm.isOpening) {
             return
