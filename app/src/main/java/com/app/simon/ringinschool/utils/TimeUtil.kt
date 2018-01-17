@@ -101,7 +101,7 @@ object TimeUtil {
         val calendar = Calendar.getInstance()
         val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
         val currentMinute = calendar.get(Calendar.MINUTE)
-        if (currentHour == hourOfDay && currentMinute == minute - 1) {
+        if (currentHour == hourOfDay && currentMinute == minute) {
             return true
         }
         return false

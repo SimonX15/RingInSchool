@@ -146,7 +146,11 @@ object AlarmManagerHelper {
 
     /** 开启闹钟 */
     fun startPolling(context: Context) {
-        //        Log.i(TAG, App.alarmList.toString())
+        //重置闹钟
+        TimeUtil.resetAllAlarmWithCode()
+        DefaultUtil.saveAlarm()
+
+        Log.i(TAG, "startPolling")
         if (alarmManager == null) {
             alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         }
