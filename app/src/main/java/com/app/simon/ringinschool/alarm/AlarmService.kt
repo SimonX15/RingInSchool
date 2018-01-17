@@ -3,10 +3,7 @@ package com.app.simon.ringinschool.alarm
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.util.Log
-import com.app.simon.ringinschool.utils.DefaultUtil
 import com.app.simon.ringinschool.utils.MediaPlayerUtil
-import com.app.simon.ringinschool.utils.TimeUtil
 
 /**
  * desc: 闹钟 service
@@ -33,19 +30,7 @@ class AlarmService : Service() {
             }
         }, 1000 * 60)*/ //1分钟之后再更新，避免当前分钟内，重复响铃
 
-        val alarmList = DefaultUtil.getAlarmFromSp()
-        Log.i(TAG, "onStartCommand\n" + alarmList.toString())
-
-        alarmList?.forEach {
-            if (it.isOpening && TimeUtil.isCurrentTime(it.hourOfDay, it.minute - 1)) {
-                Log.i(TAG, "isCurrentTime to play：$it")
-                //闹钟开始
-                MediaPlayerUtil.play(this@AlarmService, it.alarmType)
-                //添加闹钟的时候重新设置mills
-                TimeUtil.resetAllAlarmWithCode()
-                return@forEach
-            }
-        }
+        MediaPlayerUtil.prepare2Ring(this)
 
         /*alarmIndex?.run {
             if (alarmIndex != -1 && alarmIndex < App.alarmList.size) {
@@ -63,6 +48,7 @@ class AlarmService : Service() {
         }*/
         return super.onStartCommand(intent, flags, startId)
     }
+
 
     companion object {
         private val TAG = AlarmService::class.java.simpleName

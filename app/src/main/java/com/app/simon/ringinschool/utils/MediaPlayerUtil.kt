@@ -19,8 +19,23 @@ import java.util.*
 object MediaPlayerUtil {
     private val TAG = MediaPlayerUtil::class.java.simpleName
 
+    /** 检查，响铃 */
+    fun prepare2Ring(context: Context) {
+        val alarmList = DefaultUtil.getAlarmFromSp()
+        Log.i(TAG, "prepare2Ring\n" + alarmList.toString())
+
+        alarmList?.forEach {
+            if (it.isOpening && TimeUtil.isCurrentTime(it.hourOfDay, it.minute - 1)) {
+                Log.i(TAG, "prepare2Ring to play：$it")
+                //闹钟开始
+                play(context, it.alarmType)
+                return@forEach
+            }
+        }
+    }
+
     /** 播放音乐 */
-    fun play(context: Context, alarmType: Int) {
+    private fun play(context: Context, alarmType: Int) {
         val ring = DefaultUtil.getRingFromSp()
         ring?.apply {
             val music = when (alarmType) {

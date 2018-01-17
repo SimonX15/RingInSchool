@@ -150,7 +150,8 @@ object AlarmManagerHelper {
         TimeUtil.resetAllAlarmWithCode()
         DefaultUtil.saveAlarm()
 
-        Log.i(TAG, "startPolling")
+        Log.i(TAG, "startPolling\n" + App.alarmList.toString())
+
         if (alarmManager == null) {
             alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         }

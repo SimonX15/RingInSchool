@@ -7,7 +7,6 @@ import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SwitchCompat
-import android.util.Log
 import android.view.LayoutInflater
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.R
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Log.i(TAG, "MainActivity onCreate: ")
+        //        Log.i(TAG, "MainActivity onCreate: ")
 
         DefaultUtil.initAlarmFromSp(this)
         initData()
