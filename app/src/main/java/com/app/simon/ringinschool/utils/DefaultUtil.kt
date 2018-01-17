@@ -23,13 +23,18 @@ object DefaultUtil {
 
     /** 初始化闹钟 */
     fun initAlarmFromSp(context: Context) {
+        initAlarmSp(context)
+        initRingSp()
+    }
+
+    private fun initAlarmSp(context: Context) {
         val alarmSpJson = SpUtil.spAlarmList
         //        Log.i(TAG, "alarmSpJson:${alarmSpJson.get()} ")
         val type = object : TypeToken<ArrayList<Alarm>>() {
         }.type
         val alarmListSP = GsonUtil.toObj<ArrayList<Alarm>>(alarmSpJson.get(), type)
         if (alarmListSP == null || alarmListSP.isEmpty()) {
-            DefaultUtil.setAlarmDefault(context)
+            setAlarmDefault(context)
         } else {
             //先取消闹钟
             AlarmManagerHelper.cancelAllAlarm(context)
@@ -42,10 +47,10 @@ object DefaultUtil {
             //开启所有闹钟
             AlarmManagerHelper.startAllAlarm(context)
         }
+    }
 
-        val ringSpJson = SpUtil.spRing
-        //        Log.i(TAG, "ringSpJson:${ringSpJson.get()} ")
-        val ringSp = GsonUtil.toObj<Ring>(ringSpJson.get(), Ring::class.java)
+    private fun initRingSp() {
+        val ringSp = getRingFromSp()
         if (ringSp == null) {
             setRingDefault()
         } else {
@@ -53,7 +58,13 @@ object DefaultUtil {
             App.ring.endMusic = ringSp.endMusic
             App.ring.graceMusic = ringSp.graceMusic
         }
+    }
 
+    /** 从ring获取 */
+    fun getRingFromSp(): Ring? {
+        val ringSpJson = SpUtil.spRing
+        //        Log.i(TAG, "ringSpJson:${ringSpJson.get()} ")
+        return GsonUtil.toObj(ringSpJson.get(), Ring::class.java)
     }
 
     /** 设置默认闹钟 */
@@ -63,9 +74,10 @@ object DefaultUtil {
         AlarmManagerHelper.cancelAllAlarm(context)
         //清空数据
         App.alarmList.clear()
+
         //插入数据
         getAlarmList().forEach {
-            //        getDebugAlarmList().forEach {
+            //                    getDebugAlarmList().forEach {
             App.alarmList.add(it)
         }
         //重置，主要是更新时间和闹钟的code
@@ -98,20 +110,32 @@ object DefaultUtil {
         return list
     }
 
+    fun saveAlarm() {
+        val alarmJson = GsonUtil.toJson(App.alarmList)
+        //        Log.i(TAG, "alarmJson:$alarmJson ")
+        SpUtil.spAlarmList.set(alarmJson)
+    }
+
+    fun saveRing() {
+        val ringJson = GsonUtil.toJson(App.ring)
+        //        Log.i(TAG, "ringJson:$ringJson ")
+        SpUtil.spRing.set(ringJson)
+    }
+
     private fun getDebugAlarmList(): ArrayList<Alarm> {
         val list = ArrayList<Alarm>()
         val calendar = Calendar.getInstance()
-        calendar.add(Calendar.MINUTE, 2)
+        calendar.add(Calendar.MINUTE, 1)
         list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_GRACE))
-        calendar.add(Calendar.MINUTE, 2)
+        calendar.add(Calendar.MINUTE, 3)
         list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_START))
-        calendar.add(Calendar.MINUTE, 2)
+        calendar.add(Calendar.MINUTE, 3)
         list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_END))
-        calendar.add(Calendar.MINUTE, 2)
+        calendar.add(Calendar.MINUTE, 3)
         list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_GRACE))
-        calendar.add(Calendar.MINUTE, 2)
+        calendar.add(Calendar.MINUTE, 3)
         list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_START))
-        calendar.add(Calendar.MINUTE, 2)
+        calendar.add(Calendar.MINUTE, 3)
         list.add(Alarm(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), alarmType = TYPE_END))
         return list
     }

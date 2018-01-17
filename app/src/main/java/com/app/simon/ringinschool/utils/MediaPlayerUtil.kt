@@ -21,7 +21,8 @@ object MediaPlayerUtil {
 
     /** 播放音乐 */
     fun play(context: Context, alarmType: Int) {
-        App.ring.apply {
+        val ring = DefaultUtil.getRingFromSp()
+        ring?.apply {
             val music = when (alarmType) {
                 AlarmType.TYPE_START -> {
                     startMusic

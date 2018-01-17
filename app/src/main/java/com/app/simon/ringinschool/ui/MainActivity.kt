@@ -16,7 +16,9 @@ import com.app.simon.ringinschool.alarm.AlarmManagerHelper
 import com.app.simon.ringinschool.alarm.OnCompletedListener
 import com.app.simon.ringinschool.alarm.adapter.AlarmAdapter
 import com.app.simon.ringinschool.ring.models.Music
-import com.app.simon.ringinschool.utils.*
+import com.app.simon.ringinschool.utils.DefaultUtil
+import com.app.simon.ringinschool.utils.PermissionUtil
+import com.app.simon.ringinschool.utils.TimeUtil
 import com.app.simon.ringinschool.widgets.CustomerItemDecoration
 import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.*
@@ -53,13 +55,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        val alarmJson = GsonUtil.toJson(App.alarmList)
-        //        Log.i(TAG, "alarmJson:$alarmJson ")
-        SpUtil.spAlarmList.set(alarmJson)
 
-        val ringJson = GsonUtil.toJson(App.ring)
-        //        Log.i(TAG, "ringJson:$ringJson ")
-        SpUtil.spRing.set(ringJson)
+        DefaultUtil.saveRing()
+        DefaultUtil.saveAlarm()
     }
 
     override fun onBackPressed() {
@@ -140,6 +138,7 @@ class MainActivity : AppCompatActivity() {
             searchExternalMusic()
             selector("请选择上课铃声", musicNameList, { _, i ->
                 App.ring.startMusic = musicList[i]
+                DefaultUtil.saveRing()
                 refreshRingViews()
             })
         }
@@ -147,6 +146,7 @@ class MainActivity : AppCompatActivity() {
             searchExternalMusic()
             selector("请选择下课铃声", musicNameList, { _, i ->
                 App.ring.endMusic = musicList[i]
+                DefaultUtil.saveRing()
                 refreshRingViews()
             })
         }
@@ -154,6 +154,7 @@ class MainActivity : AppCompatActivity() {
             searchExternalMusic()
             selector("请选择赞美之歌", musicNameList, { _, i ->
                 App.ring.graceMusic = musicList[i]
+                DefaultUtil.saveRing()
                 refreshRingViews()
             })
         }
