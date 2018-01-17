@@ -28,11 +28,7 @@ object DefaultUtil {
     }
 
     private fun initAlarmSp(context: Context) {
-        val alarmSpJson = SpUtil.spAlarmList
-        //        Log.i(TAG, "alarmSpJson:${alarmSpJson.get()} ")
-        val type = object : TypeToken<ArrayList<Alarm>>() {
-        }.type
-        val alarmListSP = GsonUtil.toObj<ArrayList<Alarm>>(alarmSpJson.get(), type)
+        val alarmListSP = getAlarmFromSp()
         if (alarmListSP == null || alarmListSP.isEmpty()) {
             setAlarmDefault(context)
         } else {
@@ -45,8 +41,16 @@ object DefaultUtil {
             //重置，主要是更新时间和闹钟的code
             TimeUtil.resetAllAlarmWithCode()
             //开启所有闹钟
-            AlarmManagerHelper.startAllAlarm(context)
+            //            AlarmManagerHelper.startAllAlarm(context)
         }
+    }
+
+    fun getAlarmFromSp(): ArrayList<Alarm>? {
+        val alarmSpJson = SpUtil.spAlarmList
+        //        Log.i(TAG, "alarmSpJson:${alarmSpJson.get()} ")
+        val type = object : TypeToken<ArrayList<Alarm>>() {
+        }.type
+        return GsonUtil.toObj(alarmSpJson.get(), type)
     }
 
     private fun initRingSp() {
@@ -83,7 +87,7 @@ object DefaultUtil {
         //重置，主要是更新时间和闹钟的code
         TimeUtil.resetAllAlarmWithCode()
         //开启所有闹钟
-        AlarmManagerHelper.startAllAlarm(context)
+        //        AlarmManagerHelper.startAllAlarm(context)
         //        Log.i(TAG, "setDefault end: ${App.alarmList}")
     }
 

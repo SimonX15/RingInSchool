@@ -95,4 +95,15 @@ object TimeUtil {
 
         return choose.timeInMillis
     }
+
+    /** 是否当前时间，判断时、分 */
+    fun isCurrentTime(hourOfDay: Int, minute: Int): Boolean {
+        val calendar = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
+        if (currentHour == hourOfDay && currentMinute == minute) {
+            return true
+        }
+        return false
+    }
 }

@@ -53,6 +53,12 @@ class MainActivity : AppCompatActivity() {
         initViews()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        AlarmManagerHelper.startPolling(this)
+    }
+
     override fun onStop() {
         super.onStop()
 
@@ -85,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                 App.alarmList.forEach {
                     it.isOpening = true
                 }
-                AlarmManagerHelper.startAllAlarm(this)
+                //                AlarmManagerHelper.startAllAlarm(this)
                 "全部开启"
             } else {
                 App.alarmList.forEach {

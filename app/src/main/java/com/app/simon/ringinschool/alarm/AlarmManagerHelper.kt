@@ -54,7 +54,7 @@ object AlarmManagerHelper {
         //重置，主要是更新时间和闹钟的code
         TimeUtil.resetAllAlarmWithCode()
         //开启所有闹钟
-        startAllAlarm(context)
+        //        startAllAlarm(context)
         Log.i(TAG, "addAlarm end: ${App.alarmList}")
     }
 
@@ -86,7 +86,7 @@ object AlarmManagerHelper {
         //重置，主要是更新时间和闹钟的code
         TimeUtil.resetAllAlarmWithCode()
         //开启所有闹钟
-        startAllAlarm(context)
+        //        startAllAlarm(context)
         Log.i(TAG, "updateAlarm end: ${App.alarmList}")
     }
 
@@ -136,8 +136,32 @@ object AlarmManagerHelper {
         //        alarmManager?.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + seconds * 1000, pendingIntent)
     }
 
-
     /** 开启闹钟 */
+    fun startPolling(context: Context) {
+        //        Log.i(TAG, App.alarmList.toString())
+        if (alarmManager == null) {
+            alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        }
+
+        //直接跳往service，不经过广播
+        val intent = Intent(context, AlarmService::class.java)
+        val pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        //        val pendingIntent = PendingIntent.getBroadcast(context, alarm.requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        //固定时间通知
+        alarmManager?.setExact(AlarmManager.RTC_WAKEUP, 1000 * 60, pendingIntent) //每分钟一次
+        //        alarmManager?.setWindow(AlarmManager.RTC_WAKEUP, alarm.timeInMills, 1000, pendingIntent)
+        //            val calendar = Calendar.getInstance()
+        //            //当前时间上加一分钟
+        //            calendar.add(Calendar.MINUTE, 1)
+        //            calendar.set(Calendar.SECOND, 0)
+        //相对时间通知
+        //        alarmManager?.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + seconds * 1000, pendingIntent)
+    }
+
+    /**
+     * 开启闹钟
+     * @see startPolling
+     */
     fun startAllAlarm(context: Context) {
         App.alarmList.forEach {
             startAlarm(context, it)
