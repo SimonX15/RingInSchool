@@ -9,6 +9,7 @@ import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.alarm.models.Alarm
 import com.app.simon.ringinschool.utils.DefaultUtil
 import com.app.simon.ringinschool.utils.TimeUtil
+import java.util.*
 
 
 /**
@@ -161,8 +162,10 @@ object AlarmManagerHelper {
         val pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
         //        val pendingIntent = PendingIntent.getBroadcast(context, alarm.requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
         //固定时间通知
-        val triggerAtMillis = System.currentTimeMillis() + 1000 * 60
-        alarmManager?.setExact(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent) //每分钟一次
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.SECOND, 0)
+        calendar.add(Calendar.MINUTE, 1)
+        alarmManager?.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent) //每分钟一次
         //        alarmManager?.setWindow(AlarmManager.RTC_WAKEUP, alarm.timeInMills, 1000, pendingIntent)
         //            val calendar = Calendar.getInstance()
         //            //当前时间上加一分钟

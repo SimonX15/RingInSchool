@@ -26,7 +26,7 @@ object MediaPlayerUtil {
 
         alarmList?.forEach {
             if (it.isOpening && TimeUtil.isCurrentTime(it.hourOfDay, it.minute - 1)) {
-                Log.i(TAG, "prepare2Ring to play：$it")
+                Log.i(TAG, "prepare2Ring to play\n $it")
                 //闹钟开始
                 play(context, it.alarmType)
                 return@forEach

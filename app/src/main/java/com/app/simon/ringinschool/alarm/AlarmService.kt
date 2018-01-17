@@ -3,6 +3,7 @@ package com.app.simon.ringinschool.alarm
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import com.app.simon.ringinschool.utils.MediaPlayerUtil
 
 /**
@@ -21,6 +22,7 @@ class AlarmService : Service() {
         //        val alarmIndex = intent?.getIntExtra(AlarmManagerHelper.EXTRA_ALARM_INDEX, -1)
         //        Log.i(TAG, "alarmIndex=$alarmIndex")
 
+        Log.i(TAG, "onStartCommand")
         AlarmManagerHelper.startPolling(this@AlarmService)
 
         /*Timer().schedule(object : TimerTask() {

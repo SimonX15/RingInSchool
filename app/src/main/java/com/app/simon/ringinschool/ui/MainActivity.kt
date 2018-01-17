@@ -45,9 +45,9 @@ class MainActivity : AppCompatActivity() {
 
         //        Log.i(TAG, "MainActivity onCreate: ")
 
+        PermissionUtil.requestPermissions(this)
         DefaultUtil.initAlarmFromSp(this)
         initData()
-        PermissionUtil.requestPermissions(this)
         initViews()
     }
 
