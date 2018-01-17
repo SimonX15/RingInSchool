@@ -1,7 +1,6 @@
 package com.app.simon.ringinschool.ui
 
 import android.app.TimePickerDialog
-import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.MediaStore
@@ -59,8 +58,8 @@ class MainActivity : AppCompatActivity() {
         AlarmManagerHelper.startPolling(this)
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onPause() {
+        super.onPause()
 
         DefaultUtil.saveRing()
         DefaultUtil.saveAlarm()
@@ -181,6 +180,7 @@ class MainActivity : AppCompatActivity() {
                     selector("请选择响铃类型", alarmTypeList, { _, i ->
                         val alarm = App.alarmList[position]
                         alarm.alarmType = i
+                        DefaultUtil.saveAlarm()
                         adapter?.notifyItemChanged(position)
                     })
                 }
@@ -201,6 +201,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         AlarmManagerHelper.updateAlarm(this@MainActivity, position, hourOfDay, minute, alarm.alarmType, object : OnCompletedListener {
                             override fun updateAtPosition(from: Int, to: Int) {
+                                DefaultUtil.saveAlarm()
                                 adapter?.notifyItemChanged(from)
                                 adapter?.notifyItemMoved(from, to)
                             }
@@ -221,6 +222,7 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         AlarmManagerHelper.cancelAlarm(this@MainActivity, alarm)
                     }*/
+                    DefaultUtil.saveAlarm()
                     //notify
                     adapter?.notifyItemChanged(position)
                     //                    Log.i(TAG, "alarm: $alarm")
@@ -301,10 +303,6 @@ class MainActivity : AppCompatActivity() {
             //            Log.i(TAG, "musicNameList: $musicNameList")
             cursor?.close()
         }
-    }
-
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
     }
 
     companion object {

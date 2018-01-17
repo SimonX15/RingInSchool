@@ -37,7 +37,7 @@ class AlarmService : Service() {
         Log.i(TAG, "onStartCommand\n" + alarmList.toString())
 
         alarmList?.forEach {
-            if (TimeUtil.isCurrentTime(it.hourOfDay, it.minute)) {
+            if (it.isOpening && TimeUtil.isCurrentTime(it.hourOfDay, it.minute)) {
                 Log.i(TAG, "isCurrentTime to play：$it")
                 //闹钟开始
                 MediaPlayerUtil.play(this@AlarmService, it.alarmType)
