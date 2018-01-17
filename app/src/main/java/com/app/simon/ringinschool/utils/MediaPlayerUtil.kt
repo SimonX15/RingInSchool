@@ -22,7 +22,7 @@ object MediaPlayerUtil {
     /** 检查，响铃 */
     fun prepare2Ring(context: Context) {
         val alarmList = DefaultUtil.getAlarmFromSp()
-        Log.i(TAG, "prepare2Ring\n" + alarmList.toString())
+        //        Log.i(TAG, "prepare2Ring\n" + alarmList.toString())
 
         alarmList?.forEach {
             if (it.isOpening && TimeUtil.isCurrentTime(it.hourOfDay, it.minute - 1)) {
