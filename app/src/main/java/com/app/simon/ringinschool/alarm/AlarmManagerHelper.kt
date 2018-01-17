@@ -7,7 +7,9 @@ import android.content.Intent
 import android.util.Log
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.alarm.models.Alarm
+import com.app.simon.ringinschool.utils.DefaultUtil
 import com.app.simon.ringinschool.utils.TimeUtil
+
 
 /**
  * desc: 闹钟管理类
@@ -55,6 +57,8 @@ object AlarmManagerHelper {
         TimeUtil.resetAllAlarmWithCode()
         //开启所有闹钟
         //        startAllAlarm(context)
+        //缓存
+        DefaultUtil.saveAlarm()
         Log.i(TAG, "addAlarm end: ${App.alarmList}")
     }
 
@@ -87,6 +91,8 @@ object AlarmManagerHelper {
         TimeUtil.resetAllAlarmWithCode()
         //开启所有闹钟
         //        startAllAlarm(context)
+        //缓存
+        DefaultUtil.saveAlarm()
         Log.i(TAG, "updateAlarm end: ${App.alarmList}")
     }
 
@@ -101,6 +107,8 @@ object AlarmManagerHelper {
         App.alarmList.removeAt(fromPosition)
         //返回index，作为更新使用
         onCompletedListener?.deleteAtPosition(fromPosition)
+        //缓存
+        DefaultUtil.saveAlarm()
         Log.i(TAG, "deleteAlarm end: ${App.alarmList}")
     }
 
@@ -148,7 +156,8 @@ object AlarmManagerHelper {
         val pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
         //        val pendingIntent = PendingIntent.getBroadcast(context, alarm.requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
         //固定时间通知
-        alarmManager?.setExact(AlarmManager.RTC_WAKEUP, 1000 * 60, pendingIntent) //每分钟一次
+        val triggerAtMillis = System.currentTimeMillis() + 1000 * 60
+        alarmManager?.setExact(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent) //每分钟一次
         //        alarmManager?.setWindow(AlarmManager.RTC_WAKEUP, alarm.timeInMills, 1000, pendingIntent)
         //            val calendar = Calendar.getInstance()
         //            //当前时间上加一分钟
@@ -164,7 +173,7 @@ object AlarmManagerHelper {
      */
     fun startAllAlarm(context: Context) {
         App.alarmList.forEach {
-            startAlarm(context, it)
+            //            startAlarm(context, it)
         }
     }
 
@@ -186,7 +195,7 @@ object AlarmManagerHelper {
     }
 
     /** 取消当前闹钟 */
-    fun cancelAlarm(context: Context, alarm: Alarm) {
+    private fun cancelAlarm(context: Context, alarm: Alarm) {
         cancelAlarmWithCode(context, alarm.requestCode)
     }
 

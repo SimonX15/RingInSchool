@@ -23,14 +23,22 @@ class AlarmService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         //        val alarmIndex = intent?.getIntExtra(AlarmManagerHelper.EXTRA_ALARM_INDEX, -1)
         //        Log.i(TAG, "alarmIndex=$alarmIndex")
-        //polling
-        AlarmManagerHelper.startPolling(this)
-        val alarmList = DefaultUtil.getAlarmFromSp()
 
+        AlarmManagerHelper.startPolling(this@AlarmService)
+
+        /*Timer().schedule(object : TimerTask() {
+            override fun run() {
+                //polling
+                AlarmManagerHelper.startPolling(this@AlarmService)
+            }
+        }, 1000 * 60)*/ //1分钟之后再更新，避免当前分钟内，重复响铃
+
+        val alarmList = DefaultUtil.getAlarmFromSp()
         Log.i(TAG, "onStartCommand\n" + alarmList.toString())
 
         alarmList?.forEach {
             if (TimeUtil.isCurrentTime(it.hourOfDay, it.minute)) {
+                Log.i(TAG, "isCurrentTime to play：$it")
                 //闹钟开始
                 MediaPlayerUtil.play(this@AlarmService, it.alarmType)
                 //添加闹钟的时候重新设置mills

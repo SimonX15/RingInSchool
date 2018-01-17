@@ -216,11 +216,11 @@ class MainActivity : AppCompatActivity() {
                     //修改是否响铃的状态
                     alarm.isOpening = switchCompat.isChecked
                     //添加或取消响铃
-                    if (switchCompat.isChecked) {
+                    /*if (switchCompat.isChecked) {
                         AlarmManagerHelper.startAlarm(this@MainActivity, alarm)
                     } else {
                         AlarmManagerHelper.cancelAlarm(this@MainActivity, alarm)
-                    }
+                    }*/
                     //notify
                     adapter?.notifyItemChanged(position)
                     //                    Log.i(TAG, "alarm: $alarm")
