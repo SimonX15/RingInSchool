@@ -159,8 +159,8 @@ object AlarmManagerHelper {
 
         //经过广播
         val intent = Intent(context, AlarmService::class.java)
-        //        val pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        val pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        //        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
         //固定时间通知
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.SECOND, 0)

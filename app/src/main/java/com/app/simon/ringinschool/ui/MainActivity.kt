@@ -1,7 +1,6 @@
 package com.app.simon.ringinschool.ui
 
 import android.app.TimePickerDialog
-import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,7 +11,6 @@ import android.view.LayoutInflater
 import com.app.simon.ringinschool.App
 import com.app.simon.ringinschool.R
 import com.app.simon.ringinschool.alarm.AlarmManagerHelper
-import com.app.simon.ringinschool.alarm.AlarmService
 import com.app.simon.ringinschool.alarm.OnCompletedListener
 import com.app.simon.ringinschool.alarm.adapter.AlarmAdapter
 import com.app.simon.ringinschool.ring.models.Music
@@ -51,14 +49,12 @@ class MainActivity : AppCompatActivity() {
         DefaultUtil.initAlarmFromSp(this)
         initData()
         initViews()
-
-        startService(Intent(this, AlarmService::class.java))
     }
 
     override fun onResume() {
         super.onResume()
 
-        //        AlarmManagerHelper.startPolling(this)
+        AlarmManagerHelper.startPolling(this)
     }
 
     override fun onPause() {

@@ -21,11 +21,13 @@ object MediaPlayerUtil {
 
     /** 检查，响铃 */
     fun prepare2Ring(context: Context) {
-        val alarmList = DefaultUtil.getAlarmFromSp()
+        Log.i(TAG, "prepare2Ring")
+        play(context, 2)
+
+        /*val alarmList = DefaultUtil.getAlarmFromSp()
         //        Log.i(TAG, "prepare2Ring\n" + alarmList.toString())
 
-        play(context, 2)
-        /*alarmList?.forEach {
+        alarmList?.forEach {
             if (it.isOpening && TimeUtil.isCurrentTime(it.hourOfDay, it.minute - 1)) {
                 Log.i(TAG, "prepare2Ring to play\n $it")
                 //闹钟开始
