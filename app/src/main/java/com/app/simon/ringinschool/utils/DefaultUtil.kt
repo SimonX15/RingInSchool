@@ -80,8 +80,8 @@ object DefaultUtil {
         App.alarmList.clear()
 
         //插入数据
-        //        getAlarmList().forEach {
-        getDebugAlarmList().forEach {
+        getAlarmList().forEach {
+            //        getDebugAlarmList().forEach {
             App.alarmList.add(it)
         }
         //重置，主要是更新时间和闹钟的code
