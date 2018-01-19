@@ -44,7 +44,7 @@ class AlarmService : Service() {
                 //polling
                 AlarmManagerHelper.startPolling(this@AlarmService)
             }
-        }, 1000 * 65) //1分钟之后再更新，避免当前分钟内，重复响铃
+        }, 1000 * 60) //1分钟之后再更新，避免当前分钟内，重复响铃
 
         MediaPlayerUtil.prepare2Ring(this)
 

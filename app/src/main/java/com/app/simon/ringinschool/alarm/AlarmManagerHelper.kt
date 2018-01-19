@@ -129,11 +129,11 @@ object AlarmManagerHelper {
         }
 
         //直接跳往service，不经过广播
-        val intent = Intent(context, AlarmService::class.java)
-        //        val intent = Intent(context, AlarmBroadcastReceiver::class.java)
-        intent.putExtra(EXTRA_ALARM_INDEX, App.alarmList.indexOf(alarm))
-        val pendingIntent = PendingIntent.getService(context, alarm.requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
-        //        val pendingIntent = PendingIntent.getBroadcast(context, alarm.requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        //        val intent = Intent(context, AlarmService::class.java)
+        //        val pendingIntent = PendingIntent.getService(context, alarm.requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+
+        val intent = Intent(context, AlarmBroadcastReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(context, alarm.requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT)
         //固定时间通知
         alarmManager?.setExact(AlarmManager.RTC_WAKEUP, alarm.timeInMills, pendingIntent)
         //        alarmManager?.setWindow(AlarmManager.RTC_WAKEUP, alarm.timeInMills, 1000, pendingIntent)
@@ -158,9 +158,11 @@ object AlarmManagerHelper {
         }
 
         //经过广播
-        val intent = Intent(context, AlarmService::class.java)
-        val pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
-        //        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        //        val intent = Intent(context, AlarmService::class.java)
+        //        val pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+
+        val intent = Intent(context, AlarmBroadcastReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
         //固定时间通知
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.SECOND, 0)
