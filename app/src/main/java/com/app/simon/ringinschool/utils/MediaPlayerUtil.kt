@@ -24,14 +24,15 @@ object MediaPlayerUtil {
         val alarmList = DefaultUtil.getAlarmFromSp()
         //        Log.i(TAG, "prepare2Ring\n" + alarmList.toString())
 
-        alarmList?.forEach {
+        play(context, 2)
+        /*alarmList?.forEach {
             if (it.isOpening && TimeUtil.isCurrentTime(it.hourOfDay, it.minute - 1)) {
                 Log.i(TAG, "prepare2Ring to play\n $it")
                 //闹钟开始
                 play(context, it.alarmType)
                 return@forEach
             }
-        }
+        }*/
     }
 
     /** 播放音乐 */
@@ -63,11 +64,11 @@ object MediaPlayerUtil {
             }
         }
         //超过时间就停止
-        //        Timer().schedule(object : TimerTask() {
-        //            override fun run() {
-        //                stop()
-        //            }
-        //        }, 1000 * 5)
+        Timer().schedule(object : TimerTask() {
+            override fun run() {
+                stop()
+            }
+        }, 1000 * 5)
     }
 
 

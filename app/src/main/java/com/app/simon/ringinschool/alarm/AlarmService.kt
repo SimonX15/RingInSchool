@@ -4,7 +4,11 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
+import com.app.simon.ringinschool.App
+import com.app.simon.ringinschool.utils.DefaultUtil
 import com.app.simon.ringinschool.utils.MediaPlayerUtil
+import com.app.simon.ringinschool.utils.TimeUtil
+import java.util.*
 
 /**
  * desc: 闹钟 service
@@ -14,6 +18,35 @@ import com.app.simon.ringinschool.utils.MediaPlayerUtil
  */
 class AlarmService : Service() {
 
+    private var timer: Timer? = null
+
+    override fun onCreate() {
+        super.onCreate()
+        Log.i(TAG, "onCreate")
+        cancel()
+        init()
+    }
+
+    private fun init() {
+        timer = Timer()
+        timer?.schedule(object : TimerTask() {
+            override fun run() {
+                //重置闹钟
+                TimeUtil.resetAllAlarmWithCode()
+                DefaultUtil.saveAlarm()
+
+                Log.i(TAG, "schedule\n" + App.alarmList.toString())
+                //检查
+                MediaPlayerUtil.prepare2Ring(this@AlarmService)
+            }
+        }, 0, 1000 * 60)
+    }
+
+    private fun cancel() {
+        timer?.cancel()
+        timer = null
+    }
+
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
@@ -22,8 +55,9 @@ class AlarmService : Service() {
         //        val alarmIndex = intent?.getIntExtra(AlarmManagerHelper.EXTRA_ALARM_INDEX, -1)
         //        Log.i(TAG, "alarmIndex=$alarmIndex")
 
-        Log.i(TAG, "onStartCommand")
-        AlarmManagerHelper.startPolling(this@AlarmService)
+
+        //        Log.i(TAG, "onStartCommand")
+        //        AlarmManagerHelper.startPolling(this@AlarmService)
 
         /*Timer().schedule(object : TimerTask() {
             override fun run() {
@@ -32,7 +66,7 @@ class AlarmService : Service() {
             }
         }, 1000 * 60)*/ //1分钟之后再更新，避免当前分钟内，重复响铃
 
-        MediaPlayerUtil.prepare2Ring(this)
+        //        MediaPlayerUtil.prepare2Ring(this)
 
         /*alarmIndex?.run {
             if (alarmIndex != -1 && alarmIndex < App.alarmList.size) {
@@ -49,6 +83,11 @@ class AlarmService : Service() {
             }
         }*/
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(TAG, "onDestroy")
     }
 
 
