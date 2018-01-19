@@ -66,11 +66,11 @@ object MediaPlayerUtil {
             }
         }
         //超过时间就停止
-        Timer().schedule(object : TimerTask() {
+        /*Timer().schedule(object : TimerTask() {
             override fun run() {
                 stop()
             }
-        }, 1000 * 5)
+        }, 1000 * 5)*/
     }
 
 
