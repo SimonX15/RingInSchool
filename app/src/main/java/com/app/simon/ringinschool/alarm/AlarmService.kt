@@ -112,7 +112,7 @@ class AlarmService : Service() {
         //右上角的时间显示
         builder.setShowWhen(true)
         //设置通知栏的标题内容
-        builder.setContentTitle("关了我，闹钟就不响了")
+        builder.setContentTitle("按时响铃")
         //创建通知
         val notification = builder.build()
         //设置为前台服务

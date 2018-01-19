@@ -30,17 +30,6 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.config
-            //apk名称
-            applicationVariants.all { variant ->
-                variant.outputs.all { output ->
-                    outputFileName = "app_debug_v${defaultConfig.versionName}.apk"
-                    /*def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        def fileName = "${outputFile.name.replace(".apk", "")}-v${defaultConfig.versionName}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
-                    }*/
-                }
-            }
         }
         release {
             signingConfig signingConfigs.config
@@ -49,7 +38,8 @@ android {
             //apk名称
             applicationVariants.all { variant ->
                 variant.outputs.all { output ->
-                    outputFileName = "app_release_v${defaultConfig.versionName}_${releaseTime()}.apk"
+                    outputFileName = "app_v${defaultConfig.versionName}.apk"
+//                    outputFileName = "app_release_v${defaultConfig.versionName}_${releaseTime()}.apk"
                     /*def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
                         def fileName = "${outputFile.name.replace(".apk", "")}-v${defaultConfig.versionName}.apk"

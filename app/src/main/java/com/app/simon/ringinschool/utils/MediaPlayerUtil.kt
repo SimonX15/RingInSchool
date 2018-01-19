@@ -22,9 +22,8 @@ object MediaPlayerUtil {
     /** 检查，响铃 */
     fun prepare2Ring(context: Context) {
         Log.i(TAG, "prepare2Ring")
-        play(context, 2)
-
-        /*val alarmList = DefaultUtil.getAlarmFromSp()
+        //        play(context, 2)
+        val alarmList = DefaultUtil.getAlarmFromSp()
         //        Log.i(TAG, "prepare2Ring\n" + alarmList.toString())
 
         alarmList?.forEach {
@@ -34,7 +33,7 @@ object MediaPlayerUtil {
                 play(context, it.alarmType)
                 return@forEach
             }
-        }*/
+        }
     }
 
     /** 播放音乐 */
